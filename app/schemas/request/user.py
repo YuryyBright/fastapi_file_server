@@ -14,6 +14,8 @@ class UserRegisterRequest(UserBase):
     last_name: str = Field(examples=[ExampleUser.last_name])
 
 
+
+
 class UserLoginRequest(UserBase):
     """Request schema for the Login Route."""
 

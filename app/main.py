@@ -14,8 +14,8 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.config.helpers import get_api_version, get_project_root
 from app.config.settings import get_settings
 from app.database.db import async_session
-from app.resources import config_error
-from app.resources.routes import api_router
+from app.api import config_error
+from app.api.routes import api_router
 
 BLIND_USER_ERROR = 66
 
