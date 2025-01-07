@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Optional
 
+import jwt
 from email_validator import EmailNotValidError, validate_email
 from fastapi import BackgroundTasks, HTTPException, status
 from passlib.context import CryptContext
@@ -264,3 +265,29 @@ class UserManager:
                 status.HTTP_404_NOT_FOUND, ErrorMessages.USER_INVALID
             )
         return user
+
+    @staticmethod
+    async def decode_jwt(token: str) -> int:
+        """
+        Decodes a JWT token and extracts the user ID (sub) from the payload.
+
+        This method verifies the validity of the provided token and decodes it
+        to extract the user ID stored under the "sub" claim in the payload.
+
+        Args:
+            token (str): The JWT token to be decoded.
+
+        Returns:
+            int: The user ID extracted from the "sub" claim in the token payload.
+
+        Raises:
+            HTTPException: If the token has expired or is invalid, an HTTPException
+                           with status code 401 will be raised.
+        """
+        try:
+            payload = jwt.decode(token, get_settings().secret_key, algorithms=["HS256"])
+            return payload["sub"]  # Refers to the user ID stored in the "sub" claim
+        except jwt.ExpiredSignatureError:
+            raise HTTPException(status_code=401, detail="Token has expired")
+        except jwt.InvalidTokenError:
+            raise HTTPException(status_code=401, detail="Invalid token")

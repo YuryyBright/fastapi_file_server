@@ -4,7 +4,7 @@ import sys
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from typing import Any
-
+from fastapi_sessions.backends.implementations import InMemoryBackend
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -72,7 +72,7 @@ app = FastAPI(
 
 app.include_router(api_router)
 
-static_dir = get_project_root() / "static"
+static_dir = get_project_root() /"app"/"static"
 app.mount(
     f"{get_settings().api_root}/static",
     StaticFiles(directory=static_dir),
@@ -81,6 +81,8 @@ app.mount(
 
 # set up CORS
 cors_list = (get_settings().cors_origins).split(",")
+
+
 
 app.add_middleware(
     CORSMiddleware,

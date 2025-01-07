@@ -1,24 +1,125 @@
-<!-- app/templates/login.html -->
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <h1>Login Page</h1>
-    <form action="/login" method="post">
-        <label for="email">Email:</label>
-        <input type="email" name="email" required><br><br>
-        <label for="password">Password:</label>
-        <input type="password" name="password" required><br><br>
-        <button type="submit">Login</button>
-    </form>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="wingo admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities."
+    />
+    <meta
+      name="keywords"
+      content="admin template, wingo admin template, dashboard template, flat admin template, responsive admin template, web app"
+    />
+    <meta name="author" content="pixelstrap" />
+    <link rel="icon" href="{{ url_for('static', path='images/favicon.png') }}" type="image/x-icon" />
+    <link rel="shortcut icon" href="{{ url_for('static', path='images/favicon.png') }}" type="image/x-icon" />
+    <title>wingo - Premium Admin Template</title>
+    <!-- Google font-->
+    <!-- Font Awesome-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='assets/css/vendors/font-awesome.css') }}" />
+    <!-- ico-font-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='assets/css/vendors/icofont.css') }}" />
+    <!-- Themify icon-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='assets/css/vendors/themify.css') }}" />
+    <!-- Flag icon-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='assets/css/vendors/flag-icon.css') }}" />
+    <!-- Feather icon-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='assets/css/vendors/feather-icon.css') }}" />
+    <!-- Plugins css start-->
+    <!-- Plugins css Ends-->
+    <!-- Bootstrap css-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='assets/css/vendors/bootstrap.css') }}" />
+    <!-- App css-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='assets/css/style.css') }}" />
+    <link id="color" rel="stylesheet" href="{{ url_for('static', path='assets/css/color-1.css') }}" media="screen" />
+    <!-- Responsive css-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='assets/css/responsive.css') }}" />
+  </head>
 
-    {% if error %}
-    <p style="color:red;">{{ error }}</p>
-    {% endif %}
-</body>
+  <body calss="">
+    <!-- Loader starts-->
+    <div class="loader-wrapper">
+      <div class="main-loader">
+        <div class="bar-0"></div>
+        <div class="bar-1"></div>
+        <div class="bar-2"></div>
+        <div class="bar-3"></div>
+        <div class="bar-4"></div>
+      </div>
+      <div class="loading">Loading...</div>
+    </div>
+    <!-- Loader ends-->
+    <!-- page-wrapper Start-->
+    <section>
+      <div class="container-fluid p-0">
+        <div class="row">
+          <div class="col-12">
+            <div class="login-card">
+              <img
+                class="img-fluid bg-img-cover"
+                src="   {{ url_for('static', path='/assets/images/login/login_bg.jpg') }}"
+                alt=""
+              />
+
+              <form class="theme-form login-form" id="loginForm">
+                <div id="error-message" class="alert alert-danger" style="display: none">
+                  <!-- Error messages will be inserted here -->
+                </div>
+
+                <div class="login-header text-center">
+                  <h4>Login</h4>
+                  <h6>Welcome back! Log in to your account.</h6>
+                </div>
+                <div class="form-group"></div>
+
+                <div class="form-group">
+                  <label>Email Address</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="icon-email"></i></span>
+                    <input class="form-control" type="email" id="email" required="" placeholder="Test@gmail.com" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Password</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="icon-lock"></i></span>
+                    <input class="form-control" type="password" id="password" required="" placeholder="*********" />
+                    <div class="show-hide"><span class="show"></span></div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- page-wrapper end-->
+
+    <!-- latest jquery-->
+    <script src="{{ url_for('static', path='assets/js/jquery-3.5.1.min.js') }}"></script>
+    <!-- feather icon js-->
+    <script src="{{ url_for('static', path='assets/js/icons/feather-icon/feather.min.js') }}"></script>
+    <script src="{{ url_for('static', path='assets/js/icons/feather-icon/feather-icon.js') }}"></script>
+    <!-- Sidebar jquery-->
+
+    <script src="{{ url_for('static', path='assets/js/config.js') }}"></script>
+    <!-- Bootstrap js-->
+    <script src="{{ url_for('static', path='assets/js/bootstrap/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', path='assets/js/bootstrap/bootstrap.min.js') }}"></script>
+    <!-- Plugins JS start-->
+    <!-- Plugins JS Ends-->
+    <!-- Theme js-->
+
+    <script src="{{ url_for('static', path='assets/js/script.js') }}"></script>
+
+    <!-- login js-->
+    <script src="{{ url_for('static', path='assets/js/login.js') }}"></script>
+    <!-- Plugin used-->
+  </body>
 </html>

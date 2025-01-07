@@ -19,7 +19,7 @@ from fastapi import APIRouter, Header, Request
 from fastapi.templating import Jinja2Templates
 from starlette.templating import _TemplateResponse
 
-from config.helpers import get_project_root
+from app.config.helpers import get_project_root
 
 template_folder = get_project_root() / "app" / "templates"
 templates = Jinja2Templates(directory=template_folder)

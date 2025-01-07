@@ -22,6 +22,7 @@ class UserLoginRequest(UserBase):
     password: str = Field(examples=[ExampleUser.password])
 
 
+
 class UserEditRequest(UserBase):
     """Request schema for Editing a User.
 
