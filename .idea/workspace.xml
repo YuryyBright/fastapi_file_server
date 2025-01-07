@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdeccc5b-710c-4347-b234-be22ab83c1c8" name="Changes" comment="Initial commit">
-      <change afterPath="$PROJECT_DIR$/app/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/v1/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/v1/auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/managers/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/managers/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/schemas/request/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas/request/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/auth/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/auth/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/index.html" afterDir="false" />
-    </list>
+    <list default="true" id="cdeccc5b-710c-4347-b234-be22ab83c1c8" name="Changes" comment="try screw auth" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,6 +21,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/YuryyBright/fastapi_file_server",
+    "accountId": "6c9f8094-605f-4790-a4fc-6d25d4fade80"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -143,7 +139,7 @@
       <workItem from="1736194425555" duration="239000" />
       <workItem from="1736194864406" duration="6168000" />
       <workItem from="1736251121371" duration="9005000" />
-      <workItem from="1736270900674" duration="10429000" />
+      <workItem from="1736270900674" duration="10854000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -153,7 +149,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736200446890</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="try screw auth">
+      <option name="closed" value="true" />
+      <created>1736281758887</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1736281758887</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -172,7 +176,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
+    <MESSAGE value="try screw auth" />
+    <option name="LAST_COMMIT_MESSAGE" value="try screw auth" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
