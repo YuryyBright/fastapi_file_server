@@ -3,7 +3,7 @@
 from collections.abc import Sequence
 from typing import Annotated, Optional, Union
 
-from fastapi import APIRouter, Depends, Request, status
+from fastapi import APIRouter, Depends, Request, status, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database.db import get_database
@@ -13,6 +13,7 @@ from app.models.enums import RoleType
 from app.models.user import User
 from app.schemas.request.user import UserChangePasswordRequest, UserEditRequest
 from app.schemas.response.user import MyUserResponse, UserResponse
+from schemas.base import LogoutResponse
 
 router = APIRouter(tags=["Users"], prefix="/users")
 
@@ -35,6 +36,7 @@ router = APIRouter(tags=["Users"], prefix="/users")
 #     if user_id:
 #         return await UserManager.get_user_by_id(user_id, db)
 #     return await UserManager.get_all_users(db)
+
 
 @router.get(
     "/",
@@ -164,3 +166,4 @@ async def delete_user(
     Admin only.
     """
     await UserManager.delete_user(user_id, db)
+

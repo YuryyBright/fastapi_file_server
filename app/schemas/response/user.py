@@ -23,3 +23,4 @@ class MyUserResponse(UserBase):
 
     first_name: str = Field(examples=[ExampleUser.first_name])
     last_name: str = Field(examples=[ExampleUser.last_name])
+

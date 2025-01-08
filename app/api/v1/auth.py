@@ -90,6 +90,9 @@ async def login(
     response.set_cookie(
         "refresh_token", refresh, httponly=True, secure=True, samesite="Strict", max_age=60 * 60 * 24 * 30  # 30 days
     )
+    response.set_cookie(
+        "access_token", token, httponly=True, secure=True, samesite="Strict", max_age=60 * 60 * 24 * 30  # 30 days
+    )
 
     # Return the tokens in the response body as well (use TokenResponse model for response)
     return {"token": token, "refresh": refresh}
@@ -102,19 +105,7 @@ async def login_form(request: Request):
     return templates.TemplateResponse("auth/login.html", {"request": request})
 
 
-@router.post(
-    "/logout/",
-    name="logout_user",
-    status_code=status.HTTP_200_OK,
-)
-async def logout(response: Response):
-    """Logout the user by clearing the authentication tokens in cookies."""
-    # Remove the cookies
-    response.delete_cookie("access_token")
-    response.delete_cookie("refresh_token")
 
-    # Return a response indicating logout was successful
-    return {"message": "User logged out successfully"}
 @router.post(
     "/refresh/",
     name="refresh_an_expired_token",

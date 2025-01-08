@@ -329,7 +329,6 @@ class CustomHTTPBearer(HTTPBearer):
             raise HTTPException(
                 status.HTTP_401_UNAUTHORIZED, ResponseMessages.MISSING_TOKEN
             )
-
         return user_data  # type: ignore
 
 
