@@ -11,3 +11,9 @@ class UserBase(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     email: str = Field(examples=[ExampleUser.email])
+
+
+class UserCreate(BaseModel):
+    """Base for the User Schema."""
+    model_config = ConfigDict(from_attributes=True)
+    password: str = Field(examples=[ExampleUser.password])

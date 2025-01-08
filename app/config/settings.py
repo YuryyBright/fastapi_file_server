@@ -48,6 +48,13 @@ class Settings(BaseSettings):
     db_port: str = "5432"
     db_name: str = "fileserver"
 
+    # Setup the Redis
+    redis_host: str = "localhost"
+    redis_port: int = 6379
+    redis_db: int = 0
+    redis_password: str = None  # Password for Redis (optional)
+
+
     test_with_postgres: bool = False
 
     # Setup the TEST Postgresql database.

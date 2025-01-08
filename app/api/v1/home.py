@@ -3,20 +3,12 @@
 from typing import Annotated, Union
 
 from fastapi import APIRouter, Header, Request
-from fastapi.templating import Jinja2Templates
-from starlette.templating import _TemplateResponse
 
+from api import RootResponse, templates
 from app.config.helpers import get_api_version, get_project_root
 from app.config.settings import get_settings
 
 router = APIRouter()
-
-template_folder = get_project_root() / "app" / "templates"
-templates = Jinja2Templates(directory=template_folder)
-
-RootResponse = Union[dict[str, str], _TemplateResponse]
-
-
 @router.get("/", include_in_schema=False, response_model=None)
 def root_path(
     request: Request,

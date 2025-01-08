@@ -22,6 +22,8 @@ class UserLoginRequest(UserBase):
     password: str = Field(examples=[ExampleUser.password])
 
 
+class UserLogoutRequest(BaseModel):
+    token: str  # The refresh token or JWT token to invalidate
 
 class UserEditRequest(UserBase):
     """Request schema for Editing a User.

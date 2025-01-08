@@ -3,8 +3,11 @@
 from typing import Annotated
 
 from fastapi import APIRouter, BackgroundTasks, Depends, status, Request
+from fastapi.responses import RedirectResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.responses import HTMLResponse
+
+from api import session_manager
 from app.database.db import get_database
 from app.managers.auth import AuthManager
 from app.managers.user import UserManager
@@ -15,7 +18,7 @@ from app.schemas.response.auth import TokenRefreshResponse, TokenResponse
 
 from typing import Annotated, Union
 
-from fastapi import APIRouter, Header, Request
+from fastapi import APIRouter, Header, Request, Response
 from fastapi.templating import Jinja2Templates
 from starlette.templating import _TemplateResponse
 
@@ -64,8 +67,11 @@ async def register(
 async def login(
     user_data: UserLoginRequest,
     session: Annotated[AsyncSession, Depends(get_database)],
+    response: Response,  # Ensure the response object is included to set cookies
+    request: Request  # To access cookies in the request
 ) -> dict[str, str]:
-    """Login an existing User and return a JWT token plus a Refresh Token.
+    """
+    Login an existing User and return a JWT token plus a Refresh Token.
 
     The JWT token should be sent as a Bearer token for each access to a
     protected route. It will expire after 120 minutes.
@@ -74,14 +80,41 @@ async def login(
     endpoint to return a new JWT Token. The Refresh token will last 30 days, and
     cannot be refreshed.
     """
-    token, refresh = await UserManager.login(user_data.model_dump(), session)
-    return {"token": token, "refresh": refresh}
+    # Check if the user is already logged in
 
+
+    # Authenticate user and retrieve tokens
+    token, refresh = await UserManager.login(user_data.model_dump(), session)
+
+    # Set tokens in cookies for subsequent requests
+    response.set_cookie(
+        "refresh_token", refresh, httponly=True, secure=True, samesite="Strict", max_age=60 * 60 * 24 * 30  # 30 days
+    )
+
+    # Return the tokens in the response body as well (use TokenResponse model for response)
+    return {"token": token, "refresh": refresh}
 @router.get("/login", response_class=HTMLResponse)
 async def login_form(request: Request):
+    """Login form"""
+    if request.cookies.get("refresh_token"):
+        # Redirect to the main page if the user is already logged in
+        return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
     return templates.TemplateResponse("auth/login.html", {"request": request})
 
 
+@router.post(
+    "/logout/",
+    name="logout_user",
+    status_code=status.HTTP_200_OK,
+)
+async def logout(response: Response):
+    """Logout the user by clearing the authentication tokens in cookies."""
+    # Remove the cookies
+    response.delete_cookie("access_token")
+    response.delete_cookie("refresh_token")
+
+    # Return a response indicating logout was successful
+    return {"message": "User logged out successfully"}
 @router.post(
     "/refresh/",
     name="refresh_an_expired_token",

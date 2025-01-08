@@ -8,7 +8,7 @@ import jwt
 from email_validator import EmailNotValidError, validate_email
 from fastapi import BackgroundTasks, HTTPException, status
 from passlib.context import CryptContext
-from sqlalchemy import delete, update
+from sqlalchemy import delete, update, select
 from sqlalchemy.exc import IntegrityError
 
 from app.config.settings import get_settings
@@ -160,6 +160,8 @@ class UserManager:
 
         return token, refresh
 
+
+
     @staticmethod
     async def delete_user(user_id: int, session: AsyncSession) -> None:
         """Delete the User with specified ID."""
@@ -291,3 +293,4 @@ class UserManager:
             raise HTTPException(status_code=401, detail="Token has expired")
         except jwt.InvalidTokenError:
             raise HTTPException(status_code=401, detail="Invalid token")
+

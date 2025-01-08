@@ -41,8 +41,6 @@ $(document).ready(function () {
         // On success, handle the response (e.g., redirect or show message)
         if (response.token) {
           // Store the token in localStorage for future requests
-          localStorage.setItem("access_token", response.token);
-          localStorage.setItem("refresh_token", response.refresh);
           alert("Login successful!");
 
           // Отримуємо JWT токен з серверної змінної

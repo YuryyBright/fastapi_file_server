@@ -20,6 +20,7 @@ from app.schemas.email import EmailTemplateSchema
 from app.schemas.request.auth import TokenRefreshRequest
 
 
+
 class ResponseMessages:
     """Error strings for different circumstances."""
 
@@ -29,6 +30,7 @@ class ResponseMessages:
     INVALID_TOKEN = "That token is Invalid"  # noqa: S105
     EXPIRED_TOKEN = "That token has Expired"  # noqa: S105
     VERIFICATION_SUCCESS = "User succesfully Verified"
+    MISSING_TOKEN = 'hat token is Missing'
     USER_NOT_FOUND = "User not Found"
     ALREADY_VALIDATED = "You are already validated"
     VALIDATION_RESENT = "Validation email re-sent"
@@ -245,19 +247,63 @@ class AuthManager:
         )
 
 
+# class CustomHTTPBearer(HTTPBearer):
+#     """Our own custom HTTPBearer class."""
+#
+#     async def __call__(
+#         self, request: Request, db: AsyncSession = Depends(get_database)
+#     ) -> Optional[HTTPAuthorizationCredentials]:
+#         """Override the default __call__ function."""
+#         res = await super().__call__(request)
+#
+#         try:
+#             if res:
+#                 payload = jwt.decode(
+#                     res.credentials,
+#                     get_settings().secret_key,
+#                     algorithms=["HS256"],
+#                 )
+#                 user_data = await get_user_by_id_(payload["sub"], db)
+#                 # block a banned or unverified user
+#                 if user_data:
+#                     if bool(user_data.banned) or not bool(user_data.verified):
+#                         raise HTTPException(
+#                             status.HTTP_401_UNAUTHORIZED,
+#                             ResponseMessages.INVALID_TOKEN,
+#                         )
+#                     request.state.user = user_data
+#
+#         except jwt.ExpiredSignatureError as exc:
+#             raise HTTPException(
+#                 status.HTTP_401_UNAUTHORIZED, ResponseMessages.EXPIRED_TOKEN
+#             ) from exc
+#         except jwt.InvalidTokenError as exc:
+#             raise HTTPException(
+#                 status.HTTP_401_UNAUTHORIZED, ResponseMessages.INVALID_TOKEN
+#             ) from exc
+#         else:
+#             return user_data  # type: ignore
 class CustomHTTPBearer(HTTPBearer):
     """Our own custom HTTPBearer class."""
 
     async def __call__(
-        self, request: Request, db: AsyncSession = Depends(get_database)
+            self, request: Request, db: AsyncSession = Depends(get_database)
     ) -> Optional[HTTPAuthorizationCredentials]:
         """Override the default __call__ function."""
-        res = await super().__call__(request)
 
-        try:
+        # Try to get the token from the cookies if not in the header
+        token = request.cookies.get("access_token")
+
+        if not token:
+            # If no token in cookies, fall back to the Authorization header
+            res = await super().__call__(request)
             if res:
+                token = res.credentials
+
+        if token:
+            try:
                 payload = jwt.decode(
-                    res.credentials,
+                    token,
                     get_settings().secret_key,
                     algorithms=["HS256"],
                 )
@@ -271,16 +317,20 @@ class CustomHTTPBearer(HTTPBearer):
                         )
                     request.state.user = user_data
 
-        except jwt.ExpiredSignatureError as exc:
-            raise HTTPException(
-                status.HTTP_401_UNAUTHORIZED, ResponseMessages.EXPIRED_TOKEN
-            ) from exc
-        except jwt.InvalidTokenError as exc:
-            raise HTTPException(
-                status.HTTP_401_UNAUTHORIZED, ResponseMessages.INVALID_TOKEN
-            ) from exc
+            except jwt.ExpiredSignatureError as exc:
+                raise HTTPException(
+                    status.HTTP_401_UNAUTHORIZED, ResponseMessages.EXPIRED_TOKEN
+                ) from exc
+            except jwt.InvalidTokenError as exc:
+                raise HTTPException(
+                    status.HTTP_401_UNAUTHORIZED, ResponseMessages.INVALID_TOKEN
+                ) from exc
         else:
-            return user_data  # type: ignore
+            raise HTTPException(
+                status.HTTP_401_UNAUTHORIZED, ResponseMessages.MISSING_TOKEN
+            )
+
+        return user_data  # type: ignore
 
 
 oauth2_schema = CustomHTTPBearer()
@@ -308,3 +358,4 @@ def is_banned(request: Request) -> None:
     """Dont let banned users access the route."""
     if request.state.user.banned:
         raise HTTPException(status.HTTP_403_FORBIDDEN, "Banned!")
+

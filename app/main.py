@@ -4,10 +4,12 @@ import sys
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from typing import Any
-from fastapi_sessions.backends.implementations import InMemoryBackend
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from fastapi.staticfiles import StaticFiles
+from fastapi_login import LoginManager
 from rich import print as rprint
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -18,7 +20,7 @@ from app.api import config_error
 from app.api.routes import api_router
 
 BLIND_USER_ERROR = 66
-
+settings = get_settings()
 # gatekeeper to ensure the user has read the docs and noted the major changes
 # since the last version.
 if not get_settings().i_read_the_damn_docs:
@@ -57,14 +59,13 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[Any, None]:
     # we would normally put any cleanup code here, but we don't have any at the
     # moment so we just yield.
 
-
 app = FastAPI(
-    title=get_settings().api_title,
-    description=get_settings().api_description,
+    title=settings.api_title,
+    description=settings.api_description,
     redoc_url=None,
-    docs_url=f"{get_settings().api_root}/docs",
-    license_info=get_settings().license_info,
-    contact=get_settings().contact,
+    docs_url=f"{settings.api_root}/docs",
+    license_info=settings.license_info,
+    contact=settings.contact,
     version=get_api_version(),
     lifespan=lifespan,
     swagger_ui_parameters={"defaultModelsExpandDepth": 0},
@@ -91,6 +92,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 if __name__ == "__main__":
     import uvicorn

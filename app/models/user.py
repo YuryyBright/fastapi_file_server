@@ -29,3 +29,5 @@ class User(Base):
     def __repr__(self) -> str:
         """Define the model representation."""
         return f'User({self.id}, "{self.first_name} {self.last_name}")'
+
+

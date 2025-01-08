@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdeccc5b-710c-4347-b234-be22ab83c1c8" name="Changes" comment="try screw auth" />
+    <list default="true" id="cdeccc5b-710c-4347-b234-be22ab83c1c8" name="Changes" comment="add js">
+      <change afterPath="$PROJECT_DIR$/app/managers/sessions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/v1/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/v1/auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/v1/home.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/v1/home.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/v1/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/v1/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/config/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/managers/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/managers/auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/managers/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/managers/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/schemas/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas/base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/schemas/request/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas/request/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/assets/js/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/assets/js/login.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,12 +36,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/YuryyBright/fastapi_file_server",
-    "accountId": "6c9f8094-605f-4790-a4fc-6d25d4fade80"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;YuryyBright&quot;
   }
-}]]></component>
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/YuryyBright/fastapi_file_server&quot;,
+    &quot;accountId&quot;: &quot;6c9f8094-605f-4790-a4fc-6d25d4fade80&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -139,7 +160,8 @@
       <workItem from="1736194425555" duration="239000" />
       <workItem from="1736194864406" duration="6168000" />
       <workItem from="1736251121371" duration="9005000" />
-      <workItem from="1736270900674" duration="10854000" />
+      <workItem from="1736270900674" duration="11540000" />
+      <workItem from="1736317866612" duration="20181000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -157,7 +179,23 @@
       <option name="project" value="LOCAL" />
       <updated>1736281758887</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="try screw auth">
+      <option name="closed" value="true" />
+      <created>1736281847558</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1736281847559</updated>
+    </task>
+    <task id="LOCAL-00004" summary="add js">
+      <option name="closed" value="true" />
+      <created>1736281893633</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1736281893633</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -177,7 +215,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
     <MESSAGE value="try screw auth" />
-    <option name="LAST_COMMIT_MESSAGE" value="try screw auth" />
+    <MESSAGE value="add js" />
+    <option name="LAST_COMMIT_MESSAGE" value="add js" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -191,6 +230,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/fast_api_file_server$api_admin.coverage" NAME="api_admin Coverage Results" MODIFIED="1736261686351" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
-    <SUITE FILE_PATH="coverage/fast_api_file_server$main.coverage" NAME="main Coverage Results" MODIFIED="1736280295877" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
+    <SUITE FILE_PATH="coverage/fast_api_file_server$main.coverage" NAME="main Coverage Results" MODIFIED="1736340135407" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
   </component>
 </project>

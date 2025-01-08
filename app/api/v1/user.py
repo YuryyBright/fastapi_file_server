@@ -17,6 +17,25 @@ from app.schemas.response.user import MyUserResponse, UserResponse
 router = APIRouter(tags=["Users"], prefix="/users")
 
 
+# @router.get(
+#     "/",
+#     dependencies=[Depends(oauth2_schema), Depends(is_admin)],
+#     response_model=Union[UserResponse, list[UserResponse]],
+# )
+# async def get_users(
+#     db: Annotated[AsyncSession, Depends(get_database)],
+#     user_id: Optional[int] = None,
+# ) -> Union[Sequence[User], User]:
+#     """Get all users or a specific user by their ID.
+#
+#     user_id is optional, and if omitted then all Users are returned.
+#
+#     This route is only allowed for Admins.
+#     """
+#     if user_id:
+#         return await UserManager.get_user_by_id(user_id, db)
+#     return await UserManager.get_all_users(db)
+
 @router.get(
     "/",
     dependencies=[Depends(oauth2_schema), Depends(is_admin)],
@@ -35,7 +54,6 @@ async def get_users(
     if user_id:
         return await UserManager.get_user_by_id(user_id, db)
     return await UserManager.get_all_users(db)
-
 
 @router.get(
     "/me",
