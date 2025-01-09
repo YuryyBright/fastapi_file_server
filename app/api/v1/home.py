@@ -4,8 +4,8 @@ from typing import Annotated, Union
 
 from fastapi import APIRouter, Header, Request, Depends, status, Response
 
-from managers.auth import oauth2_schema
-from schemas.base import LogoutResponse
+from app.managers.auth import oauth2_schema
+from app.schemas.base import LogoutResponse
 
 router = APIRouter(tags=["Home"])
 

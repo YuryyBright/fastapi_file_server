@@ -14,107 +14,140 @@
 {% endblock %} {% block content %}
 
 <!-- Main content -->
+
 <section class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <!-- Left Sidebar -->
-      <div class="col-md-4">
-        <!-- Info Boxes -->
-        <div class="info-box bg-warning">
-          <span class="info-box-icon"><i class="fas fa-folder"></i></span>
-          <div class="info-box-content">
-            <span class="info-box-text">Documents</span>
-            <span class="info-box-number">120</span>
-          </div>
-        </div>
-        <div class="info-box bg-success">
-          <span class="info-box-icon"><i class="fas fa-images"></i></span>
-          <div class="info-box-content">
-            <span class="info-box-text">Pictures</span>
-            <span class="info-box-number">340</span>
-          </div>
-        </div>
-
-        <!-- Recently Added Products -->
-        <div class="card shadow-sm border-0 rounded-3">
-          <div class="card-header bg-primary text-white">
-            <h3 class="card-title mb-0">Recently Added Files</h3>
-          </div>
-          <div class="card-body p-3">
-            <ul class="list-unstyled">
-              <li class="d-flex align-items-center py-2 border-bottom">
-                <div class="product-img me-3">
-                  <i class="fas fa-file-alt img-size-50 text-primary"></i>
-                </div>
-                <div class="product-info">
-                  <a href="#" class="product-title h5 text-decoration-none text-dark">Report.pdf</a>
-                  <span class="d-block text-muted small">Annual financial report.</span>
-                </div>
-              </li>
-              <li class="d-flex align-items-center py-2">
-                <div class="product-img me-3">
-                  <i class="fas fa-image img-size-50 text-success"></i>
-                </div>
-                <div class="product-info">
-                  <a href="#" class="product-title h5 text-decoration-none text-dark">Holiday.jpg</a>
-                  <span class="d-block text-muted small">Vacation in Hawaii.</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right Content Area -->
-      <div class="col-md-8">
-        <!-- Breadcrumb Navigation -->
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb bg-light p-2">
-            <li class="breadcrumb-item"><a href="#">Root</a></li>
-            <li class="breadcrumb-item"><a href="#">Folder 1</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Current Folder</li>
-          </ol>
-        </nav>
-
-        <!-- Files and Folders -->
-        <div class="row">
-          <div class="col-md-4">
-            <div class="card text-center">
-              <div class="card-body">
-                <i class="fas fa-folder fa-2x text-warning"></i>
-                <p class="card-text">Subfolder 1</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card text-center">
-              <div class="card-body">
-                <i class="fas fa-folder fa-2x text-warning"></i>
-                <p class="card-text">Subfolder 2</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card text-center">
-              <div class="card-body">
-                <i class="fas fa-file-alt fa-2x text-primary"></i>
-                <p class="card-text">File1.txt</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card text-center">
-              <div class="card-body">
-                <i class="fas fa-file-pdf fa-2x text-danger"></i>
-                <p class="card-text">Document.pdf</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div class="container mt-5">
+    <ol class="breadcrumb" id="breadcrumbs">
+      <!-- Breadcrumbs will be dynamically added here -->
+    </ol>
+    <div class="d-flex justify-content-between mb-3">
+      <button id="go-back" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i>
+        Back
+      </button>
+      <button id="create-folder" class="btn btn-primary">
+        <i class="fas fa-folder-plus"></i>
+        New Folder
+      </button>
+      <button id="upload-file" class="btn btn-success">
+        <i class="fas fa-file-upload"></i>
+        Upload File
+      </button>
+    </div>
+    <div id="file-list" class="list-group">
+      <!-- Files and folders will be dynamically added here -->
     </div>
   </div>
 </section>
+
+<!-- Alert Modal -->
+<div
+  class="modal fade"
+  id="alertModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="alertModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="alertModalLabel">Message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="alertModalMessage"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Modal -->
+<div
+  class="modal fade"
+  id="confirmModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="confirmModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmModalLabel">Confirmation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="confirmModalMessage"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="confirmModalConfirm">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Input Modal -->
+<div
+  class="modal fade"
+  id="promptModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="promptModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="promptModalLabel">Enter Value</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="promptModalInput" class="form-control" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="promptModalSubmit">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Input Modal -->
+<div
+  class="modal fade"
+  id="fileInfoModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="promptModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="promptModalLabel">File Information</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- /.content -->
 {%endblock%} {% block scripts %}
 <script src="{{ url_for('static', path='dist/js/pages/files.js') }}"></script>

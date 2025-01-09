@@ -13,12 +13,13 @@ from fastapi_login import LoginManager
 from rich import print as rprint
 from sqlalchemy.exc import SQLAlchemyError
 
-from api.config_error import not_found_handler, forbidden_handler, internal_server_error_handler
+
 from app.config.helpers import get_api_version, get_project_root
 from app.config.settings import get_settings
 from app.database.db import async_session
 from app.api import config_error
 from app.api.routes import api_router
+from app.api.config_error import not_found_handler, forbidden_handler, internal_server_error_handler
 
 BLIND_USER_ERROR = 66
 settings = get_settings()
@@ -74,7 +75,7 @@ app = FastAPI(
 
 app.include_router(api_router)
 app.add_exception_handler(404, not_found_handler)
-app.add_exception_handler(403, forbidden_handler)
+app.add_exception_handler(401, forbidden_handler)
 app.add_exception_handler(500, internal_server_error_handler)
 static_dir = get_project_root() /"app"/"static"
 app.mount(

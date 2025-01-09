@@ -7,7 +7,7 @@ from fastapi.responses import RedirectResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.responses import HTMLResponse
 
-from api import session_manager
+
 from app.database.db import get_database
 from app.managers.auth import AuthManager
 from app.managers.user import UserManager

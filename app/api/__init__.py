@@ -4,9 +4,9 @@ from typing import Union
 
 from starlette.templating import Jinja2Templates, _TemplateResponse
 
-from config.helpers import get_project_root
-from config.settings import get_settings
-from managers.sessions import SessionManager
+from app.config.helpers import get_project_root
+from app.config.settings import get_settings
+from app.managers.sessions import SessionManager
 
 template_folder = get_project_root() / "app" / "templates"
 templates = Jinja2Templates(directory=template_folder)

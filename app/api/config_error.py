@@ -12,7 +12,7 @@ async def not_found_handler(request: Request, exc):
 
 # 403 Forbidden
 async def forbidden_handler(request: Request, exc):
-    return templates.TemplateResponse("403.html", {"request": request}, status_code=403)
+    return templates.TemplateResponse("403.html", {"request": request}, status_code=401)
 
 
 # 500 Internal Server Error
