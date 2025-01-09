@@ -3,10 +3,10 @@ from fastapi.responses import FileResponse
 
 import pathlib
 
-from app.managers.auth import oauth2_schema
+from managers.auth import oauth2_schema
 from datetime import datetime
 
-from app.schemas.response.ffiles import SysFile
+from schemas.response.ffiles import SysFile
 from ..utils.do_file import syspath, check_name, write, get_mime, format_bytes_size, bucket_path
 
 file = APIRouter(tags=["File"], prefix="/file")
@@ -48,12 +48,11 @@ async def upload_file(path: pathlib.Path = Depends(syspath), file: UploadFile = 
 @file.put("{url_path:path}", summary="mv",dependencies=[Depends(oauth2_schema)])
 def move_file(path: pathlib.Path = Depends(syspath), new_path: str = Form(...)):
     """set new path(new name)"""
-
-    print(path)
+    
     if not path.is_file():
         raise HTTPException(status_code=404)
     try:
-        path.rename(bucket_path / pathlib.Path(new_path))
+        path.rename(bucket_path / pathlib.Path("." + new_path))
     except FileExistsError:
         raise HTTPException(status_code=412, detail="Name already exists")
     except OSError as e:

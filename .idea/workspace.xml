@@ -4,27 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdeccc5b-710c-4347-b234-be22ab83c1c8" name="Changes" comment="add page dashboard, users, and files">
-      <change afterPath="$PROJECT_DIR$/app/api/v1/file.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/v1/folder.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/schemas/request/ffiles.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/schemas/response/ffiles.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/ffiles/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/ffiles/download_file.py" afterDir="false" />
+    <list default="true" id="cdeccc5b-710c-4347-b234-be22ab83c1c8" name="Changes" comment="beta works project">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/config_error.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/config_error.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/utils/do_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/utils/do_file.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/v1/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/v1/auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/v1/home.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/v1/home.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/v1/pages.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/v1/pages.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/schemas/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/403.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/403.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/file_manager/files.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/file_manager/files.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/v1/file.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/v1/file.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -227,7 +209,7 @@
       <workItem from="1736194864406" duration="6168000" />
       <workItem from="1736251121371" duration="9005000" />
       <workItem from="1736270900674" duration="11540000" />
-      <workItem from="1736317866612" duration="55508000" />
+      <workItem from="1736317866612" duration="62223000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -293,7 +275,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736426497476</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="beta works project">
+      <option name="closed" value="true" />
+      <created>1736454428100</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1736454428100</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -317,7 +307,8 @@
     <MESSAGE value="add login example" />
     <MESSAGE value="replace" />
     <MESSAGE value="add page dashboard, users, and files" />
-    <option name="LAST_COMMIT_MESSAGE" value="add page dashboard, users, and files" />
+    <MESSAGE value="beta works project" />
+    <option name="LAST_COMMIT_MESSAGE" value="beta works project" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -334,6 +325,6 @@
     <SUITE FILE_PATH="coverage/fast_api_file_server$api_admin.coverage" NAME="api_admin Coverage Results" MODIFIED="1736452609870" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
     <SUITE FILE_PATH="coverage/fast_api_file_server$pytest_in_download_file_py.coverage" NAME="pytest in download_file.py Coverage Results" MODIFIED="1736429477916" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/ffiles" />
     <SUITE FILE_PATH="coverage/fast_api_file_server$pytest_for_download_file_test_download_file.coverage" NAME="pytest for download_file.test_download_file Coverage Results" MODIFIED="1736429441022" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/ffiles" />
-    <SUITE FILE_PATH="coverage/fast_api_file_server$main.coverage" NAME="main Coverage Results" MODIFIED="1736453137706" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
+    <SUITE FILE_PATH="coverage/fast_api_file_server$main.coverage" NAME="main Coverage Results" MODIFIED="1736460873733" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
   </component>
 </project>
