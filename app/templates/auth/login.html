@@ -5,20 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>FILE MANAGER PRO</title>
 
-    <!-- Google Font: Source Sans Pro -->
-    <!-- Font Awesome -->
     <!-- Font Awesome -->
 
     <!-- iCheck Bootstrap -->
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', path='plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', path='plugins/fontawesome-free/css/all.min.css') }}" />
 
     <!-- Theme Style -->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dist/css/adminlte.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', path='dist/css/adminlte.min.css') }}" />
   </head>
-  <body class="hold-transition login-page">
+  <body class="hold-transition login-page dark-mode">
     <div class="login-box">
       <!-- /.login-logo -->
       <div class="card card-outline card-primary">
@@ -29,11 +25,11 @@
           </a>
         </div>
         <div class="card-body">
-          <p class="login-box-msg">Sign in to start your session</p>
+          <p class="login-box-msg">Забагато файлів не буває</p>
 
-          <form action="../../index3.html" method="post">
+          <form method="post" id="loginForm">
             <div class="input-group mb-3">
-              <input type="email" class="form-control" placeholder="Email" />
+              <input type="email" class="form-control" placeholder="Email" id="email" required />
               <div class="input-group-append">
                 <div class="input-group-text">
                   <span class="fas fa-envelope"></span>
@@ -41,7 +37,7 @@
               </div>
             </div>
             <div class="input-group mb-3">
-              <input type="password" class="form-control" placeholder="Password" />
+              <input type="password" class="form-control" placeholder="Password" id="password" required />
               <div class="input-group-append">
                 <div class="input-group-text">
                   <span class="fas fa-lock"></span>
@@ -49,21 +45,13 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-8">
-                <div class="icheck-primary">
-                  <input type="checkbox" id="remember" />
-                  <label for="remember">Remember Me</label>
-                </div>
-              </div>
-              <!-- /.col -->
               <div class="col-4">
-                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                <button type="submit" class="btn btn-primary btn-block">Вдарити</button>
               </div>
-              <!-- /.col -->
             </div>
           </form>
 
-          <div class="social-auth-links text-center mt-2 mb-3">
+          <!-- <div class="social-auth-links text-center mt-2 mb-3">
             <a href="#" class="btn btn-block btn-primary">
               <i class="fab fa-facebook mr-2"></i>
               Sign in using Facebook
@@ -72,15 +60,15 @@
               <i class="fab fa-google-plus mr-2"></i>
               Sign in using Google+
             </a>
-          </div>
+          </div> -->
           <!-- /.social-auth-links -->
 
-          <p class="mb-1">
+          <!-- <p class="mb-1">
             <a href="forgot-password.html">I forgot my password</a>
           </p>
           <p class="mb-0">
             <a href="register.html" class="text-center">Register a new membership</a>
-          </p>
+          </p> -->
         </div>
         <!-- /.card-body -->
       </div>
@@ -89,25 +77,13 @@
     <!-- /.login-box -->
 
     <!-- jQuery -->
-    <script src="{{ url_for('static', filename='plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', path='plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
-    <script src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', path='plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- App -->
-    <script src="{{ url_for('static', filename='dist/js/adminlte.min.js') }}"></script>
+    <script src="{{ url_for('static', path='dist/js/adminlte.min.js') }}"></script>
     <script>
       $(document).ready(function () {
-        // Show/Hide Password
-        $(".show-hide").click(function () {
-          let passwordField = $("input[type='password']");
-          if (passwordField.attr("type") === "password") {
-            passwordField.attr("type", "text");
-            $(this).find("span").text("Hide");
-          } else {
-            passwordField.attr("type", "password");
-            $(this).find("span").text("Show");
-          }
-        });
-
         // Handle form submission
         $("#loginForm").submit(function (event) {
           event.preventDefault(); // Prevent form from submitting normally
@@ -122,13 +98,19 @@
             return;
           }
 
+          // Email format validation (optional)
+          let emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+          if (!emailRegex.test(email)) {
+            alert("Please enter a valid email.");
+            return;
+          }
+
           // Prepare data to be sent
           let loginData = {
             email: email,
             password: password,
           };
 
-          console.log(loginData);
           // Send AJAX request to backend API
           $.ajax({
             url: "/login/", // URL of your backend login endpoint
@@ -139,6 +121,8 @@
               // On success, handle the response (e.g., redirect or show message)
               if (response.token) {
                 // Store the token in localStorage for future requests
+                localStorage.setItem("token", response.token);
+                console.log(response);
                 // Redirect to dashboard or home page
                 window.location.href = "/"; // Or wherever the user should go after login
               } else {

@@ -1,4 +1,5 @@
 """Define all the resources (routes) for the API."""
+from functools import wraps
 from typing import Union
 
 from starlette.templating import Jinja2Templates, _TemplateResponse
@@ -12,3 +13,5 @@ templates = Jinja2Templates(directory=template_folder)
 RootResponse = Union[dict[str, str], _TemplateResponse]
 
 session_manager = SessionManager(secret_key=get_settings().secret_key, jwt_expiration=60*60*2, refresh_token_expiration=60*60*24*30)
+
+

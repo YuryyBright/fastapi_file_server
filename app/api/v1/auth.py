@@ -19,14 +19,6 @@ from app.schemas.response.auth import TokenRefreshResponse, TokenResponse
 from typing import Annotated, Union
 
 from fastapi import APIRouter, Header, Request, Response
-from fastapi.templating import Jinja2Templates
-from starlette.templating import _TemplateResponse
-
-from app.config.helpers import get_project_root
-
-template_folder = get_project_root() / "app" / "templates"
-templates = Jinja2Templates(directory=template_folder)
-RootResponse = Union[dict[str, str], _TemplateResponse]
 router = APIRouter(tags=["Authentication"])
 
 
@@ -96,13 +88,7 @@ async def login(
 
     # Return the tokens in the response body as well (use TokenResponse model for response)
     return {"token": token, "refresh": refresh}
-@router.get("/login", response_class=HTMLResponse)
-async def login_form(request: Request):
-    """Login form"""
-    if request.cookies.get("refresh_token"):
-        # Redirect to the main page if the user is already logged in
-        return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
-    return templates.TemplateResponse("auth/login.html", {"request": request})
+
 
 
 

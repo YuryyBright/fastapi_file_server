@@ -13,7 +13,7 @@ from app.models.enums import RoleType
 from app.models.user import User
 from app.schemas.request.user import UserChangePasswordRequest, UserEditRequest
 from app.schemas.response.user import MyUserResponse, UserResponse
-from schemas.base import LogoutResponse
+
 
 router = APIRouter(tags=["Users"], prefix="/users")
 
@@ -39,7 +39,7 @@ router = APIRouter(tags=["Users"], prefix="/users")
 
 
 @router.get(
-    "/",
+    "/all_users",
     dependencies=[Depends(oauth2_schema), Depends(is_admin)],
     response_model=Union[UserResponse, list[UserResponse]],
 )

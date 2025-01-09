@@ -1,18 +1,20 @@
-"""This route is served up for all paths if there is a DB config error."""
+from fastapi import Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
-from fastapi import APIRouter, HTTPException, status
-
-router = APIRouter()
+templates = Jinja2Templates(directory="templates")
 
 
-@router.api_route("/")
-@router.api_route("/{full_path}")
-def catch_all() -> None:
-    """Catch anything including the root route.
+# 404 Not Found
+async def not_found_handler(request: Request, exc):
+    return templates.TemplateResponse("404.html", {"request": request}, status_code=404)
 
-    It will only be loaded if there is an issue to configure the database.
-    """
-    raise HTTPException(
-        status.HTTP_500_INTERNAL_SERVER_ERROR,
-        "ERROR: Cannot connect to the database! Have you set it up properly?",
-    )
+
+# 403 Forbidden
+async def forbidden_handler(request: Request, exc):
+    return templates.TemplateResponse("403.html", {"request": request}, status_code=403)
+
+
+# 500 Internal Server Error
+async def internal_server_error_handler(request: Request, exc):
+    return templates.TemplateResponse("500.html", {"request": request}, status_code=500)

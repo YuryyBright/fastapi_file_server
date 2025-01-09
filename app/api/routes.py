@@ -3,12 +3,13 @@
 from fastapi import APIRouter
 
 from app.config.settings import get_settings
-from app.api.v1 import auth, home, user
+from app.api.v1 import auth, home, user, pages
 
 api_router = APIRouter(prefix=get_settings().api_root)
 
 api_router.include_router(user.router)
 api_router.include_router(auth.router)
+api_router.include_router(pages.router)
 
 if not get_settings().no_root_route:
     api_router.include_router(home.router)
