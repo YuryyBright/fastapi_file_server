@@ -1,4 +1,4 @@
-# FastAPI Application Template <!-- omit in toc -->
+# FastAPI Application Template
 
 ![GitHub Release](https://img.shields.io/github/v/release/seapagan/fastapi-template)
 [![Ruff](https://github.com/seapagan/fastapi-template/actions/workflows/ruff.yml/badge.svg)](https://github.com/seapagan/fastapi-template/actions/workflows/ruff.yml)
@@ -7,301 +7,106 @@
 [![pages-build-deployment](https://github.com/seapagan/fastapi-template/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/seapagan/fastapi-template/actions/workflows/pages/pages-build-deployment)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/82085ec100b64e73bea63b5942371e94)](https://app.codacy.com/gh/seapagan/fastapi-template/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
-This is a template Repository for starting a new
-[FastAPI](https://fastapi.tiangolo.com/) project with Authentication and Users,
-with Authorization already baked-in.
+Welcome to the **FastAPI Application Template**! This repository offers the **best solution for a file server API with user interface capabilities**. Built with FastAPI, it provides robust **authentication**, **authorization**, and **easy-to-use database management**. The template is designed with flexibility and performance in mind, perfect for developers needing a fast and secure way to build APIs with integrated user management.
 
-<!-- Full documentation is now availiable on it's own page [here][doc]. Please visit
-this for full usage information, how-to's and more. -->
-Documentation for this project is now availiable on it's own page at
-[https://api-template.seapagan.net][doc]. This is a work in progress, and when
-finished will include full usage information and how-to's.
+### Key Features:
+- **FastAPI Backend**: A high-performance API built with FastAPI.
+- **Authentication & Authorization**: Built-in JWT-based security for user login, registration, and refresh tokens.
+- **Database Integration**: PostgreSQL with SQLAlchemy ORM, providing an easy and asynchronous way to interact with the database.
+- **Admin Command-Line Tool**: Easy management of users, settings, and server operations via the `Typer` CLI.
+- **User Interface**: **Jinja templates** integrated with **Bootstrap** and **jQuery** for a clean, responsive front-end.
+- **Docker Support**: Seamless Docker integration to develop and deploy your app in containers.
+- **Testing Suite**: Built-in tests using `pytest` with automatic GitHub Actions for continuous testing.
 
-- [Important note on Versioning](#important-note-on-versioning)
-- [Changes from version 0.4.x](#changes-from-version-04x)
-- [Functionality](#functionality)
-- [Installation](#installation)
-- [Docker](#docker)
-  - [Develop on containers](#develop-on-containers)
-  - [Migrations on containers](#migrations-on-containers)
-  - [Testing on containers](#testing-on-containers)
-- [Planned Functionality](#planned-functionality)
-- [Testing](#testing)
-- [Code Quality](#code-quality)
-- [Known Bugs](#known-bugs)
-- [Who is Using this Template?](#who-is-using-this-template)
-- [Contributing](#contributing)
-- [GitHub Discussions](#github-discussions)
+This template also includes **file management** features, making it the ideal choice for projects that require file handling APIs with an intuitive user interface.
 
-## Important note on Versioning
-
-This template versioning has been refactored to start from **Version 0.4.0**.
-
-The original template was written for my own use and probably promoted to V1.0.0
-before it should have been, and there have been many updates and fixes since
-then.
-
-I will keep the old releases available for those who wish to use them (for a
-short time). It's better to do this now before more users need to update their
-projects to future versions.
-
-All releases from now on will also contain a Git patch to upgrade from the
-previous version. This will be in the form of a `.patch` file which can be
-applied to their project using the `git apply` command. This will be documented
-in the release notes.
-
-## Changes from version 0.4.x
-
-Starting from version 0.5.0, the template has been refactored to use SQLAlchemy
-2.0 ORM instead of `encode/databases` for database access. This allows for a
-more flexible and powerful Asynchronous database access but does need a bit of
-refactoring for any existing projects. See the [documentation][breaking] for
-more information. I will also be adding a migration guide for those who wish to
-upgrade their existing projects (time permitting).
-
-If you prefer to continue using the 0.4.x branch, you can find it
-[here][legacy-branch].
-
-To use this branch you will need to clone the repository and checkout the
-`0.4.2` branch.
-
-```console
-git clone -b 0.4.2 https://github.com/seapagan/fastapi-template.git
-```
-
-Be aware that this branch will not be maintained and will not receive any
-updates or bug fixes.
-
-## Functionality
-
-This template is a ready-to-use boilerplate for a FastAPI project. It has the
-following advantages to starting your own from scratch :
-
-- Baked-in User database and management. Routes are provided to add/edit/delete
-  or ban (and unban) Users.
-- Postgresql Integration, using SQLAlchemy ORM, no need for raw SQL queries
-  (unless you want to!). All database usage is Asynchronous.
-  [Alembic][alembic] is used to control database
-  migrations.
-- Register and Login routes provided, both of which return a JWT token to be
-  used in all future requests. JWT Token expires 120 minutes after issue.
-- JWT-based security as a Bearer Token to control access to all your routes.
-- A `Refresh Token` with 30 day expiry is sent at time of register or login
-  (never again). This will enable easy re-authentication when the JWT expires
-  without needing to send username or password again, and should be done
-  automatically by the Front-End.
-- A clean layout to help structure your project.
-- **A command-line admin tool**. This allows to configure the project metadata
-  very easily, add users (and make admin), and run a development server. This
-  can easily be modified to add your own functionality (for example bulk add
-  data) since it is based on the excellent
-  [Typer][typer] library.
-- Database and Secrets are automatically read from Environment variables or a
-  `.env` file if that is provided.
-- User email is validated for correct format on creation (however no checks are
-  performed to ensure the email or domain actually exists).
-- Control permitted CORS Origin through Environment variables.
-- Manager class set up to send emails to users, and by default an email is sent
-  when new users register. The content is set by a template (currently a
-  basic placeholder). This email has a link for the user to confirm their email
-  address - until this is done, the user cannot user the API.
-- Docker and Compose file set up to develop and test this API using Docker
-
-**This template is still in very active development and probably not yet ready
-for full production use. However, I am currently using it to develop my own
-projects, which include some production API's without issues. I will update the
-template as I find bugs or add new features. I will also be adding more
-documentation as I go. For the moment, if you wish to use it without getting
-involved in dev, I'd recommend checking out the latest actual
-[Release][latest-release].**
-
-However, the `main` branch should be pretty stable as all development is done on
-the `develop` branch and merged into `main` when ready.
-
-The template **Requires Python 3.9.0** or higher. I actually develop under
-Python 3.12.x where x is the latest version available at the time, and migrating
-to the next patch version as soon as it is released. CI tests are run
-automatically on Python 3.9, 3.10, 3.11 and 3.12.
-
-This template is free to use but I would request some accreditation. If you do
-use it in one of your applications, please put a small note in your readme
-stating that you based your project on this Template, with a link back to this
-repository. Thank You 😊
-
-For those who let me know they are using this Template, I'll add links back to
-your project in this documentation.
-
-If this template saves you time/effort/money, or you just wish to show your
-appreciation for my work, why not [Sponsor my
-Work][sponsor] or [Buy me a Coffee!][coffee] 😃
+---
 
 ## Installation
 
-Click the 'Use this template' button at the top of the Repository on GitHub.
-This will create a new repository in your personal GitHub account (Not a Fork)
-which you can then Clone and start working on.
+To get started, click the 'Use this template' button on GitHub to create your own repository. Clone it to your local machine and begin development.
 
-It is assumed that you have at least some knowledge of [FastAPI][fastapi] to use
-this template, there are very good [Basic][tut-basic] and
-[Advanced][tut-advanced] User Guides on the FastAPI website .
-
-Visit the [Installation Instructions][install] for more detailed installation
-notes, including how to handle the coverage uploader.
-
-## Docker
-
-Note that when run from docker, the API is exposed on port `8001` instead of
-`8000`.
-
-Also, unlike before version 0.5.1, it is no longer required to change the
-`DB_ADDRESS` environment variable when running on docker, this is taken care of
-automatically.
-
-### Develop on containers
-
-> :warning: For local use rename `.env.example` to `.env`.
-
-It is possible to develop directly on Docker containers :
-
-**Using `docker compose up` (recommended):**
-
-```console
-docker compose up
+```bash
+git clone https://github.com/YOUR_USERNAME/fastapi-template.git
+cd fastapi-template
 ```
 
-To run and rebuild image (dependency updates):
+Ensure you have Python 3.9+ and install the necessary dependencies:
 
-```console
+```bash
+pip install -r requirements.txt
+```
+
+For containerized development, Docker is also supported.
+
+```bash
 docker compose up --build
 ```
 
-To remove all containers:
+---
 
-```console
-docker compose down
-```
+## Docker
 
-**Using `docker compose run`:**
+This template comes with Docker support for local development and testing:
 
-First run migrations:
+1. **Run with Docker Compose**:
 
-```console
-docker compose run --rm api alembic upgrade head
-```
+   ```bash
+   docker compose up --build
+   ```
 
-Run containers:
+2. **Run Migrations**:
 
-```console
-docker compose run --rm --service-ports api uvicorn --host 0.0.0.0 main:app --reload
-```
+   ```bash
+   docker compose run --rm api alembic upgrade head
+   ```
 
-To rebuild image (dependency updates):
+3. **Test the App**:
 
-```console
-docker compose build
-```
+   ```bash
+   docker compose run --rm api pytest
+   ```
 
-### Migrations on containers
+For more information, visit the full documentation [here](https://api-template.seapagan.net).
 
-Running migrations on Docker container is also possible:
-
-```console
-docker compose run --rm api alembic upgrade head
-```
-
-### Testing on containers
-
-Running tests on Docker container is also possible:
-
-```console
-docker compose run --rm api pytest
-```
+---
 
 ## Planned Functionality
 
-See the [TODO.md](TODO.md) file for plans.
+Future versions will include:
 
-## Testing
+- Expanded user management features
+- File storage and retrieval API endpoints
+- Integration with advanced third-party authentication providers
 
-This project has a test suite for Integration and Unit tests. We use
-[pytest][pytest] for this.
-
-Currently you need a Postgresql database running for this to work, however
-SQLite support is planned to be re-added. You can easily set up a Postgresql
-database using Docker.
-
-Before running the tests, you need to create a dedicated test database, in is
-assumed that the server, username and password are the same as for the main
-database.
-
-Edit the setting in `.env` to point to the test database:
-
-```ini
-# Database name to use for testing. This must already exist.
-TEST_DB_NAME=api-template-test
-```
-
-You can then migrate this empty database by running:
-
-```console
-$ api-admin test setup
-Migrating the test database ... Done!
-```
-
-Tests can then be run from the checked out code with:
-
-```console
-$ pytest
-```
-
-It is possible to run either the Unit or Integration tests separately using
-`pytest -m unit` or `pytest -m integration`
-
-Full tests will be run automatically by **GitHub Actions** on every new commit
-pushed up to the remote repository. Code Coverage is also checked and noted
-after each test suite is run.
+---
 
 ## Code Quality
 
-`To be written`
+This project emphasizes high-quality, maintainable code. We use `ruff` for static analysis, `pytest` for testing, and integrate `pre-commit` hooks to ensure clean code in every commit.
+
+---
 
 ## Known Bugs
 
-See the [BUGS.md](BUGS.md) file for known bugs.
+For a list of known bugs, please check the [BUGS.md](BUGS.md) file.
 
-## Who is Using this Template?
+---
 
-Meh, at the moment probably no-one except me 😆. If you do use this in one of
-your own projects, drop me a message and I'll add your profile and project links
-here 😃.
+## Contributions
 
-## Contributing
+We welcome contributions! Check out the [Contributing Guidelines](https://api-template.seapagan.net/contributing/) for more details on how you can get involved.
 
-See [Contributing][contrib] for details on how to contribute to this project.
+---
 
-## GitHub Discussions
+## Contact & Discussions
 
-I have enabled
-[Discussions][discussions] on this
-repository, so if you have any questions, suggestions or just want to chat about
-this template, please feel free to start a discussion.
+If you have any questions or suggestions, feel free to start a discussion in our [GitHub Discussions](https://github.com/seapagan/fastapi-template/discussions) section.
 
-[doc]:https://api-template.seapagan.net
-[contrib]:https://api-template.seapagan.net/contributing/
-[breaking]:https://api-template.seapagan.net/important/
-[install]:https://api-template.seapagan.net/usage/installation/
-[latest-release]:https://github.com/seapagan/fastapi-template/releases/latest
-[discussions]:https://github.com/seapagan/fastapi-template/discussions
+Happy coding! 😊
 
-[legacy-branch]:https://github.com/seapagan/fastapi-template/tree/0.4.2
+---
 
-[sponsor]:https://github.com/sponsors/seapagan
-[coffee]:https://www.buymeacoffee.com/seapagan
+**Note**: If this template helps your project, please consider acknowledging it in your project README and feel free to sponsor or buy a coffee! Your support is appreciated. 😃
 
-[alembic]: https://github.com/sqlalchemy/alembic
-[typer]:https://typer.tiangolo.com/
-[fastapi]:https://fastapi.tiangolo.com/
-[pytest]:https://docs.pytest.org
-
-[tut-basic]:https://fastapi.tiangolo.com/tutorial/
-[tut-advanced]:https://fastapi.tiangolo.com/advanced/
+[Sponsor my Work](https://github.com/sponsors/seapagan) | [Buy me a Coffee!](https://www.buymeacoffee.com/seapagan)
