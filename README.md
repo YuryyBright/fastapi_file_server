@@ -1,4 +1,4 @@
-# FastAPI Application Template
+# FastAPI FileServer Template (using best practices of programming)
 
 ![GitHub Release](https://img.shields.io/github/v/release/seapagan/fastapi-template)
 [![Ruff](https://github.com/seapagan/fastapi-template/actions/workflows/ruff.yml/badge.svg)](https://github.com/seapagan/fastapi-template/actions/workflows/ruff.yml)
@@ -7,7 +7,7 @@
 [![pages-build-deployment](https://github.com/seapagan/fastapi-template/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/seapagan/fastapi-template/actions/workflows/pages/pages-build-deployment)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/82085ec100b64e73bea63b5942371e94)](https://app.codacy.com/gh/seapagan/fastapi-template/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
-Welcome to the **FastAPI Application Template**! This repository offers the **best solution for a file server API with user interface capabilities**. Built with FastAPI, it provides robust **authentication**, **authorization**, and **easy-to-use database management**. The template is designed with flexibility and performance in mind, perfect for developers needing a fast and secure way to build APIs with integrated user management.
+Welcome to the **FastAPI Application **! This repository offers the **best solution for a file server API with user interface capabilities**. Built with FastAPI, it provides robust **authentication**, **authorization**, and **easy-to-use database management**. The template is designed with flexibility and performance in mind, perfect for developers needing a fast and secure way to build APIs with integrated user management.
 
 ### Key Features:
 - **FastAPI Backend**: A high-performance API built with FastAPI.
@@ -27,7 +27,7 @@ This template also includes **file management** features, making it the ideal ch
 To get started, click the 'Use this template' button on GitHub to create your own repository. Clone it to your local machine and begin development.
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/fastapi-template.git
+git clone https://github.com/YuryyBright/fastapi_file_server.git
 cd fastapi-template
 ```
 
@@ -88,8 +88,7 @@ This project emphasizes high-quality, maintainable code. We use `ruff` for stati
 ---
 
 ## Known Bugs
-
-For a list of known bugs, please check the [BUGS.md](BUGS.md) file.
+___
 
 ---
 
@@ -108,5 +107,3 @@ Happy coding! 😊
 ---
 
 **Note**: If this template helps your project, please consider acknowledging it in your project README and feel free to sponsor or buy a coffee! Your support is appreciated. 😃
-
-[Sponsor my Work](https://github.com/sponsors/seapagan) | [Buy me a Coffee!](https://www.buymeacoffee.com/seapagan)
