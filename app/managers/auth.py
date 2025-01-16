@@ -129,7 +129,6 @@ class AuthManager:
                     status.HTTP_401_UNAUTHORIZED, ResponseMessages.INVALID_TOKEN
                 )
             new_token = AuthManager.encode_token(user_data)
-
         except jwt.ExpiredSignatureError as exc:
             raise HTTPException(
                 status.HTTP_401_UNAUTHORIZED, ResponseMessages.EXPIRED_TOKEN

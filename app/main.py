@@ -11,12 +11,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi_login import LoginManager
 from rich import print as rprint
+from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 
 
 from app.config.helpers import get_api_version, get_project_root
 from app.config.settings import get_settings
-from app.database.db import async_session
+from app.database.db import async_session, Base
 from app.api import config_error
 from app.api.routes import api_router
 from app.api.config_error import not_found_handler, forbidden_handler, internal_server_error_handler
@@ -59,8 +60,16 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[Any, None]:
 
     yield
     # we would normally put any cleanup code here, but we don't have any at the
-    # moment so we just yield.
 
+# DATABASE_URL = (
+#         "postgresql://"
+#         f"{get_settings().db_user}:{get_settings().db_password}@"
+#         f"{get_settings().db_address}:{get_settings().db_port}/"
+#         f"{get_settings().db_name}"
+#     )
+#     # moment so we just yield.
+#
+# Base.metadata.create_all(bind=create_engine(DATABASE_URL, echo=False))
 app = FastAPI(
     title=settings.api_title,
     description=settings.api_description,

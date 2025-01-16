@@ -206,7 +206,7 @@ class UserManager:
                 status.HTTP_404_NOT_FOUND, ErrorMessages.USER_INVALID
             )
         await session.execute(
-            update(User)
+                    update(User)
             .where(User.id == user_id)
             .values(password=pwd_context.hash(user_data.password))
         )
