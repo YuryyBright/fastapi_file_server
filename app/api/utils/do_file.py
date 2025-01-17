@@ -1,3 +1,4 @@
+import pathlib
 from pathlib import Path
 import fastapi
 import aiofiles
@@ -8,6 +9,7 @@ from typing import Optional, Union
 from functools import singledispatch
 
 import psutil
+from fastapi import HTTPException
 
 bucket_path = Path("__file__").parent.parent.joinpath("upload_files")
 
@@ -70,6 +72,18 @@ def get_system_stats():
     }
 
 
+def sanitize_path(path: pathlib.Path) -> pathlib.Path:
+    """Ensure the path is safe and within the allowed directory."""
+    try:
+        resolved_path = path.resolve(strict=False)
+
+        def syspath(url_path: str = fastapi.Path(...)) -> Path:
+            return bucket_path / Path('.' + url_path)
+        if not resolved_path.is_relative_to(bucket_path):
+            raise ValueError("Path traversal detected")
+        return resolved_path
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Invalid path: {e}")
 async def read(file: Path) -> bytes:
     async with aiofiles.open(file, 'rb') as f:
         return await f.read()

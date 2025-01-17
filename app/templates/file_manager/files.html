@@ -1,5 +1,4 @@
 {% extends "base.html" %} {% block title %}FILES{% endblock %} {% block header %}
-
 <div class="row mb-2">
   <div class="col-sm-6">
     <h1>Файловий менеджер</h1>
@@ -14,7 +13,6 @@
 {% endblock %} {% block content %}
 
 <!-- Main content -->
-
 <section class="content">
   <div class="container mt-5">
     <ol class="breadcrumb" id="breadcrumbs">
@@ -32,6 +30,14 @@
       <button id="upload-file" class="btn btn-success">
         <i class="fas fa-file-upload"></i>
         Upload File
+      </button>
+      <button id="export-archive" class="btn btn-warning">
+        <i class="fas fa-file-archive"></i>
+        Export to Archive
+      </button>
+      <button id="import-archive" class="btn btn-info">
+        <i class="fas fa-file-import"></i>
+        Import from Archive
       </button>
     </div>
     <div id="file-list" class="list-group">
@@ -149,7 +155,7 @@
 </div>
 
 <!-- /.content -->
-{%endblock%} {% block scripts %}
+{% endblock %} {% block scripts %}
 <script src="{{ url_for('static', path='dist/js/pages/files.js') }}"></script>
-<!-- Additional script content can be added here -->
+
 {% endblock %}

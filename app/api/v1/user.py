@@ -6,6 +6,7 @@ from typing import Annotated, Optional, Union
 from fastapi import APIRouter, Depends, Request, status, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from api.v1.file import archive_service
 from app.database.db import get_database
 from app.managers.auth import can_edit_user, is_admin, oauth2_schema
 from app.managers.user import UserManager
@@ -13,7 +14,9 @@ from app.models.enums import RoleType
 from app.models.user import User
 from app.schemas.request.user import UserChangePasswordRequest, UserEditRequest
 from app.schemas.response.user import MyUserResponse, UserResponse
-
+from managers.archive import ArchiveService
+from schemas.request.ffiles import ArchiveRequest
+from schemas.response.ffiles import ErrorResponse, ArchiveResponse
 
 router = APIRouter(tags=["Users"], prefix="/users")
 
@@ -167,3 +170,50 @@ async def delete_user(
     """
     await UserManager.delete_user(user_id, db)
 
+
+@router.post(
+    "/archive",
+    response_model=ArchiveResponse,
+    responses={
+        404: {"model": ErrorResponse},
+        500: {"model": ErrorResponse}
+    },
+    summary="Create and download ZIP archive",
+    description="Create a ZIP archive containing all files from the specified directory"
+)
+async def create_archive(
+        request: ArchiveRequest,
+        service: ArchiveService = Depends(lambda: archive_service)
+):
+    """
+    Create a ZIP archive endpoint
+
+    Args:
+        request: Archive creation parameters
+        service: Archive service instance
+
+    Returns:
+        ArchiveResponse with download URL and metadata
+    """
+
+    return service.create_archive(request)
+# @router.post("/unarchive", summary="Import from Archive", dependencies=[Depends(oauth2_schema)])
+# def import_from_archive(archive: UploadFile = File(...), extract_to: str = Form("")):
+#     """Extract files from an uploaded archive."""
+#     extract_path = sanitize_path(bucket_path / extract_to)
+#
+#     if not extract_path.is_dir():
+#         try:
+#             extract_path.mkdir(parents=True, exist_ok=True)
+#         except Exception as e:
+#             raise HTTPException(status_code=500, detail=f"Failed to create directory: {e}")
+#
+#     try:
+#         with zipfile.ZipFile(archive.file, 'r') as zip_ref:
+#             zip_ref.extractall(extract_path)
+#     except zipfile.BadZipFile:
+#         raise HTTPException(status_code=422, detail="Invalid archive format")
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=f"Error extracting archive: {e}")
+#
+#     return {"message": "Archive extracted successfully", "path": str(extract_path)}

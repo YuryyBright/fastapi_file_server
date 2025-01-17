@@ -23,6 +23,7 @@ from app.api.routes import api_router
 from app.api.config_error import not_found_handler, forbidden_handler, internal_server_error_handler
 
 BLIND_USER_ERROR = 66
+
 settings = get_settings()
 # gatekeeper to ensure the user has read the docs and noted the major changes
 # since the last version.
