@@ -11,11 +11,13 @@ from functools import singledispatch
 import psutil
 from fastapi import HTTPException
 
-bucket_path = Path("__file__").parent.parent.joinpath("upload_files")
+from app.config.helpers import get_project_root
+
+bucket_path = get_project_root() / "app" / "upload_files"
 
 
 def syspath(url_path: str = fastapi.Path(...)) -> Path:
-    return bucket_path / Path('.'+ url_path)
+    return bucket_path / Path('.' + url_path)
 
 
 def format_bytes_size(file: Path) -> str:
@@ -37,11 +39,13 @@ def get_mime(file: Path) -> Optional[str]:
         return mimetypes.guess_type(file.name)[0]
     return type.mime
 
+
 def get_system_stats():
     # Перевірка, чи існує директорія
     directory = Path(bucket_path)
+    print(directory)
     if not directory.exists() or not directory.is_dir():
-        return {"error": "Invalid directory path"}
+        return None
 
     # Підрахуємо кількість файлів і папок у конкретній директорії
     total_files = 0
@@ -66,7 +70,7 @@ def get_system_stats():
         "cpu_usage": cpu_usage,
         "total_files": total_files,
         "total_folders": total_folders,
-         "total_size": round(total_size / (1024 * 1024), 3),  # Розмір у МБ з 3 цифрами після коми
+        "total_size": round(total_size / (1024 * 1024), 3),  # Розмір у МБ з 3 цифрами після коми
         "used_memory": round(used_memory, 3),
         "total_memory": round(total_memory, 3)
     }
@@ -79,11 +83,14 @@ def sanitize_path(path: pathlib.Path) -> pathlib.Path:
 
         def syspath(url_path: str = fastapi.Path(...)) -> Path:
             return bucket_path / Path('.' + url_path)
+
         if not resolved_path.is_relative_to(bucket_path):
             raise ValueError("Path traversal detected")
         return resolved_path
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Invalid path: {e}")
+
+
 async def read(file: Path) -> bytes:
     async with aiofiles.open(file, 'rb') as f:
         return await f.read()

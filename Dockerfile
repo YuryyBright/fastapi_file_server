@@ -1,30 +1,26 @@
 FROM python:3.12-slim AS dev
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
+# Install necessary build tools (only if using PostgreSQL or any libraries requiring them)
 RUN apt-get update -y && apt-get install -y \
     gcc \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copying requirements of a project
-COPY pyproject.toml uv.lock README.md /app/src/
-WORKDIR /app
+# Set the working directory
+WORKDIR /file_server/
 
-# Install dependencies
-ENV UV_SYSTEM_PYTHON=1
-RUN --mount=type=cache,target=/root/.cache/uv \
-    --mount=type=bind,source=uv.lock,target=uv.lock \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --frozen --no-install-project
+# Copy only the requirements file first and install dependencies
+COPY requirements.txt /file_server/
+RUN python3 -m venv /file_server/.venv
 
-# Copy the project into the image
-COPY . /app/
-# Install the project
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen
+RUN pip install --upgrade pip \
+    && pip install -r requirements.txt
 
-ENV PATH="/app/.venv/bin:$PATH"
-ENV DOCKER_RUNNING=1
+# Copy the rest of the application
+COPY ./app /file_server/app
+COPY ./pyproject.toml /file_server/pyproject.toml
 
-# Running the application
-CMD ["uvicorn", "--host", "0.0.0.0", "--port","8001","app.main:app", "--reload"]
+# Set environment variables
+
+# Run the application using uvicorn
+CMD ["uvicorn", "--host", "0.0.0.0", "--port", "5001", "app.main:app"]

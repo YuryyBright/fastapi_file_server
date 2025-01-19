@@ -6,7 +6,7 @@ from typing import Annotated, Optional, Union
 from fastapi import APIRouter, Depends, Request, status, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from api.v1.file import archive_service
+from app.api.v1.file import archive_service
 from app.database.db import get_database
 from app.managers.auth import can_edit_user, is_admin, oauth2_schema
 from app.managers.user import UserManager
@@ -14,9 +14,9 @@ from app.models.enums import RoleType
 from app.models.user import User
 from app.schemas.request.user import UserChangePasswordRequest, UserEditRequest
 from app.schemas.response.user import MyUserResponse, UserResponse
-from managers.archive import ArchiveService
-from schemas.request.ffiles import ArchiveRequest
-from schemas.response.ffiles import ErrorResponse, ArchiveResponse
+from app.managers.archive import ArchiveService
+from app.schemas.request.ffiles import ArchiveRequest
+from app.schemas.response.ffiles import ErrorResponse, ArchiveResponse
 
 router = APIRouter(tags=["Users"], prefix="/users")
 

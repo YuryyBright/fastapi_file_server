@@ -1,8 +1,10 @@
 from fastapi import Request
-from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-templates = Jinja2Templates(directory="templates")
+from app.config.helpers import get_project_root
+
+template_folder = get_project_root() / "app" / "templates"
+templates = Jinja2Templates(directory=template_folder)
 
 
 # 404 Not Found

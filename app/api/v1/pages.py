@@ -3,13 +3,17 @@ from typing import Annotated, Union
 
 from fastapi import APIRouter, Header, Request, Response, status, Depends
 from starlette.responses import HTMLResponse, RedirectResponse
+from starlette.templating import Jinja2Templates, _TemplateResponse
 
-from app.api import templates, RootResponse
 from app.api.utils.do_file import get_system_stats
 from app.managers.auth import oauth2_schema
+from app.config.helpers import get_project_root
+
 router = APIRouter(tags=["Pages"])
 
-
+template_folder = get_project_root() / "app" / "templates"
+templates = Jinja2Templates(directory=template_folder)
+RootResponse = Union[dict[str, str], _TemplateResponse]
 # # Custom decorator to check for refresh token
 # def check_refresh_token_decorator(func):
 #     """
@@ -40,17 +44,26 @@ def root_path(
         return RedirectResponse(url="/login", status_code=status.HTTP_303_SEE_OTHER)
 
     stats = get_system_stats()
-    if "error" in stats:
-        return templates.TemplateResponse("error.html", {"request": request, "error": stats["error"]})
-    return templates.TemplateResponse("index.html", {
-        "request": request,
-        "cpu_usage": stats["cpu_usage"],
-        "total_files": stats["total_files"],
-        "total_folders": stats["total_folders"],
-        "total_size": stats["total_size"],
-        "used_memory": stats["used_memory"],
-        "total_memory": stats["total_memory"],
-    })
+    if stats:
+        return templates.TemplateResponse("index.html", {
+            "request": request,
+            "cpu_usage": stats["cpu_usage"],
+            "total_files": stats["total_files"],
+            "total_folders": stats["total_folders"],
+            "total_size": stats["total_size"],
+            "used_memory": stats["used_memory"],
+            "total_memory": stats["total_memory"],
+        })
+    else:
+        return templates.TemplateResponse("index.html", {
+            "request": request,
+            "cpu_usage":0,
+            "total_files": 0,
+            "total_folders": 0,
+            "total_size": 0,
+            "used_memory":0,
+            "total_memory":0,
+        })
 
 
 @router.get("/users/", include_in_schema=False, response_model=None, dependencies=[Depends(oauth2_schema)])

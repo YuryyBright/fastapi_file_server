@@ -5,11 +5,11 @@ import pathlib
 from datetime import datetime
 from app.managers.auth import oauth2_schema
 from app.schemas.response.ffiles import SysFile
-from managers.archive import ArchiveService
+from app.managers.archive import ArchiveService
 
 from ..utils.do_file import syspath, check_name, write, get_mime, format_bytes_size, bucket_path, sanitize_path
 
-archive_service = ArchiveService(pathlib.Path("bucket"))  # Configure with your base path
+archive_service = ArchiveService()  # Configure with your base path
 router = APIRouter(tags=["File"], prefix="/file")
 
 
@@ -27,7 +27,11 @@ async def download_file(path: pathlib.Path = Depends(syspath)):
 async def upload_file(path: pathlib.Path = Depends(syspath), file: UploadFile = File(...)):
     """upload file to specified folder"""
     if not path.is_dir():
-        raise HTTPException(status_code=404)
+        try:
+            path.mkdir(parents=True, exist_ok=True)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to create directory: {str(e)}")
+        # raise HTTPException(status_code=404)
     if not file.filename:
         raise HTTPException(status_code=422, detail="Name cannot be empty")
     new_file = path / pathlib.Path(file.filename)

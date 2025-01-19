@@ -1,19 +1,15 @@
 import zipfile
 from datetime import datetime
-from pathlib import Path
 
 from fastapi import HTTPException
 
-from api.utils.do_file import sanitize_path, bucket_path, syspath
-from schemas.request.ffiles import ArchiveRequest
-from schemas.response.ffiles import ArchiveResponse
+from app.api.utils.do_file import sanitize_path, bucket_path, syspath
+from app.schemas.request.ffiles import ArchiveRequest
+from app.schemas.response.ffiles import ArchiveResponse
 
 
 class ArchiveService:
     """Service class for handling archive operations"""
-
-    def __init__(self, base_path: Path):
-        self.base_path = base_path
 
     def create_archive(self, request: ArchiveRequest) -> ArchiveResponse:
         """
