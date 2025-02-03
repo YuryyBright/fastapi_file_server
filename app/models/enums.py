@@ -6,6 +6,5 @@ from enum import Enum
 
 class RoleType(Enum):
     """Contains the different Role types Users can have."""
-
     user = "user"
     admin = "admin"

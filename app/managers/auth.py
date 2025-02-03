@@ -292,7 +292,6 @@ class CustomHTTPBearer(HTTPBearer):
 
         # Try to get the token from the cookies if not in the header
         token = request.cookies.get("access_token")
-
         if not token:
             # If no token in cookies, fall back to the Authorization header
             res = await super().__call__(request)

@@ -9,6 +9,8 @@ services:
       - 5001:5001
     networks:
       - app_network
+    volumes:
+      - D:/uploaded_files:/file_server/app/uploaded_files
 
 
 #  db:

@@ -46,7 +46,7 @@ class Settings(BaseSettings):
     db_password: str = "postgres"  # noqa: S105
     db_address: str = "localhost"
     db_port: str = "5432"
-    db_name: str = "telegram_bot"
+    db_name: str = "file_server"
 
     # Setup the Redis
     redis_host: str = "localhost"

@@ -121,7 +121,7 @@
               // On success, handle the response (e.g., redirect or show message)
               if (response.token) {
                 // Store the token in localStorage for future requests
-                localStorage.setItem("token", response.token);
+                localStorage.setItem("accses_token", response.token);
                 console.log(response);
                 // Redirect to dashboard or home page
                 window.location.href = "/"; // Or wherever the user should go after login

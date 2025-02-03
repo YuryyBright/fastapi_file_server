@@ -80,10 +80,10 @@ async def login(
 
     # Set tokens in cookies for subsequent requests
     response.set_cookie(
-        "refresh_token", refresh, httponly=True, secure=True, samesite="Strict", max_age=60 * 60 * 24 * 30  # 30 days
+        "refresh_token", refresh, httponly=True, secure=False, samesite="Strict", max_age=60 * 60 * 24 * 30  # 30 days
     )
     response.set_cookie(
-        "access_token", token, httponly=True, secure=True, samesite="Strict", max_age=60 * 60 * 24 * 30  # 30 days
+        "access_token", token, httponly=True, secure=False, samesite="Strict", max_age=60 * 60 * 24 * 30  # 30 days
     )
 
     # Return the tokens in the response body as well (use TokenResponse model for response)

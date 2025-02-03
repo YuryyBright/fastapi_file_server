@@ -13,7 +13,7 @@ from fastapi import HTTPException
 
 from app.config.helpers import get_project_root
 
-bucket_path = get_project_root() / "app" / "upload_files"
+bucket_path = get_project_root() / "app" / "uploaded_files"
 
 
 def syspath(url_path: str = fastapi.Path(...)) -> Path:

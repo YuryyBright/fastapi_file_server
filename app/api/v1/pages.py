@@ -39,7 +39,7 @@ def root_path(
     accept: Annotated[Union[str, None], Header()] = "text/html",
 ) -> Annotated[Union[RootResponse], RedirectResponse]:
     """Display an HTML template for a browser, JSON response otherwise."""
-    if not request.cookies.get("refresh_token"):
+    if not request.cookies.get("access_token"):
         # Redirect to login page if refresh_token is missing
         return RedirectResponse(url="/login", status_code=status.HTTP_303_SEE_OTHER)
 
