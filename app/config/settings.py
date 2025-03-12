@@ -20,7 +20,6 @@ except ModuleNotFoundError:  # pragma: no cover
     )
     sys.exit(1)
 
-
 class Settings(BaseSettings):
     """Main Settings class.
 
@@ -87,6 +86,10 @@ class Settings(BaseSettings):
     mail_ssl_tls: bool = False
     mail_use_credentials: bool = True
     mail_validate_certs: bool = True
+
+    elastic_host:str = 'http://192.168.50.46:9200'
+    elastic_user:str
+    elastic_password:str
 
     # gatekeeper settings!
     # this is to ensure that people read the damn instructions and changelogs
