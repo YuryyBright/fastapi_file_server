@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from file_processors.audio_processor import AudioProcessor
 from file_processors.code_processor import CodeProcessor
 from file_processors.image_processor import ImageProcessor
@@ -45,10 +47,11 @@ class SearchContext:
             return {"status": "error", "message": f"No processor found for {ext} files"}
 
         try:
-            processor = self.processors[ext](file_path)
 
+            processor = self.processors[ext](file_path)
             return  processor.read()  # Виклик read() у процесора
         except Exception as e:
+            print(e)
             return {
                 "file_path": file_path,
                 "file_name": os.path.basename(file_path),
@@ -136,12 +139,14 @@ if __name__ == "__main__":
     context.register_processor("jpeg", ImageProcessor)
 
     context.register_processor("zip", lambda path: ArchiveProcessor(path, context.processors))
+    context.register_processor("7z", lambda path: ArchiveProcessor(path, context.processors))
 
     # Example usage
-    file_path = "files"
-    keyword = "Набор"
+    file_path = "files\\1 (1).7z"
+    keyword = "Молдова"
     exact_match = True
     logger.info(f"Searching for '{keyword}' in '{file_path}'...")
-    results = context.search_in_folder(file_path, keyword, exact_match)
-    for result in results:
-        logger.info(result)
+    results = context.read_file(file_path)
+    pprint(results)
+    # for result in results:
+    #     logger.info(result)

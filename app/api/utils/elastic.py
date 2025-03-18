@@ -44,6 +44,7 @@ async def index_file(file_path: str):
     context.register_processor("jpeg", ImageProcessor)
 
     context.register_processor("zip", lambda path: ArchiveProcessor(path, context.processors))
+    context.register_processor("7z", lambda path: ArchiveProcessor(path, context.processors))
     content = context.read_file(file_path)
 
     if not content:

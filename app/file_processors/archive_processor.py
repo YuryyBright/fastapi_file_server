@@ -42,7 +42,7 @@ class ArchiveProcessor(FileProcessor):
 
             for root, _, files in os.walk(temp_dir):
                 for file in files:
-                    ext = file.split('.')[-1]
+                    ext = file.split('.')[-1].lower()
                     processor_class = self.processors.get(ext)
                     if processor_class:
                         processor = processor_class(os.path.join(root, file))
@@ -55,24 +55,27 @@ class ArchiveProcessor(FileProcessor):
         Read the content of a file from the extracted archive and return it as a string.
         :return: The content of the file as a string.
         """
+
         with tempfile.TemporaryDirectory() as temp_dir:
             # Extract the archive contents
             if self.file_path.endswith('.zip'):
                 with zipfile.ZipFile(self.file_path, 'r') as archive:
                     archive.extractall(temp_dir)
             elif self.file_path.endswith('.7z'):
+
                 with py7zr.SevenZipFile(self.file_path, mode='r') as archive:
                     archive.extractall(temp_dir)
             else:
+                print('processor.read(file)')
                 raise ValueError("Unsupported archive format")
 
             content = []
+
             for root, _, files in os.walk(temp_dir):
                 for file in files:
-                    ext = file.split('.')[-1]
+                    ext = file.split('.')[-1].lower()
                     processor_class = self.processors.get(ext)
                     if processor_class:
                         processor = processor_class(os.path.join(root, file))
-                        content.append(processor.read(file))
-
+                        content.append(processor.read())
             return "\n".join(content)  # Об'єднуємо всі файли в єдиний текстовий блок
