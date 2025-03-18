@@ -3,9 +3,9 @@
 from collections.abc import Sequence
 from typing import Annotated, Optional, Union
 
-from fastapi import APIRouter, Depends, Request, status, Response
+from fastapi import APIRouter, Depends, Request, status, Response, HTTPException, BackgroundTasks
 from sqlalchemy.ext.asyncio import AsyncSession
-
+from api.utils.elastic import ElasticsearchService
 from app.api.v1.file import archive_service
 from app.database.db import get_database
 from app.managers.auth import can_edit_user, is_admin, oauth2_schema
@@ -15,7 +15,7 @@ from app.models.user import User
 from app.schemas.request.user import UserChangePasswordRequest, UserEditRequest
 from app.schemas.response.user import MyUserResponse, UserResponse
 from app.managers.archive import ArchiveService
-from app.schemas.request.ffiles import ArchiveRequest
+from app.schemas.request.ffiles import ArchiveRequest, FileResponseSchema
 from app.schemas.response.ffiles import ErrorResponse, ArchiveResponse
 
 router = APIRouter(tags=["Users"], prefix="/users")
@@ -197,6 +197,42 @@ async def create_archive(
     """
 
     return service.create_archive(request)
+
+
+@router.get(
+    "/get_unindexed_files",
+    dependencies=[Depends(oauth2_schema)],
+    response_model=FileResponseSchema,
+    summary="Get lis fo unindexed files",)
+async def get_unindexed_files() -> FileResponseSchema:
+    """Retrun lis fo unindexed files"""
+    try:
+        es_service = ElasticsearchService()
+        unindexed_files = await es_service.get_unindexed_files()
+        return FileResponseSchema(unindexed_files=unindexed_files)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Помилка отримання даних: {str(e)}")
+
+
+@router.get(
+    "/index_all_unindexed_files",
+    dependencies=[Depends(oauth2_schema)],
+    response_model=FileResponseSchema,
+    summary="Index all unindexed files in the background"
+)
+async def index_all_unindexed_files(background_tasks: BackgroundTasks) -> FileResponseSchema:
+    """Запускає індексацію всіх непроіндексованих файлів у фоновому режимі."""
+    try:
+        es_service = ElasticsearchService()
+        # Запускаємо індексацію файлів у фоновому режимі
+        background_tasks.add_task(es_service.index_all_unindexed_files)
+        # Отримуємо список непроіндексованих файлів
+        es_service = ElasticsearchService()
+        unindexed_files = await es_service.get_unindexed_files()
+        return FileResponseSchema(unindexed_files=unindexed_files)
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Помилка отримання даних: {str(e)}")
 # @router.post("/unarchive", summary="Import from Archive", dependencies=[Depends(oauth2_schema)])
 # def import_from_archive(archive: UploadFile = File(...), extract_to: str = Form("")):
 #     """Extract files from an uploaded archive."""

@@ -85,10 +85,110 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">Індексація файлів</h5>
+          </div>
+          <div class="card-body">
+            <p class="text-center"><strong>Статистика індексації</strong></p>
+            <div class="info-box">
+              <span class="info-box-icon bg-secondary elevation-1"><i class="fas fa-database"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-text">Не проіндексовані файли</span>
+                <span class="info-box-number" id="unindexed-files"></span>
+                <span class="info-box-number" id="unindexed-files-list"></span>
+              </div>
+            </div>
+            <div class="text-center mt-3">
+              <button id="get-unindexed" class="btn btn-info">Отримати кількість</button>
+              <button id="index-all" class="btn btn-success">Проіндексувати</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <!--/. container-fluid -->
 </section>
 <!-- /.content -->
 {% endblock %} {% block scripts %}
-<script></script>
+<script>
+  $(document).ready(function () {
+    $("#get-unindexed").click(function () {
+      // Показати спінер перед запитом
+      $("#loading-spinner").removeClass("d-none");
+      $("#unindexed-files-list").empty(); // Очищаємо список файлів
+
+      $.ajax({
+        url: "/users/get_unindexed_files", // Замініть на правильний ендпоінт
+        type: "GET",
+        success: function (response) {
+          // Приховати спінер після отримання відповіді
+          $("#loading-spinner").addClass("d-none");
+
+          if (response.unindexed_files.length > 0) {
+            // Вивести кількість непроіндексованих файлів
+            $("#unindexed-files").text(response.unindexed_files.length);
+
+            // Додати кожен файл до списку
+            response.unindexed_files.forEach(function (file) {
+              $("#unindexed-files-list").append("<li>" + file + "</li>");
+            });
+
+            alertify.success("Знайдено " + response.unindexed_files.length + " непроіндексованих файлів.");
+          } else {
+            $("#unindexed-files").text("0");
+            alertify.warning("Всі файли проіндексовані.");
+          }
+        },
+        error: function (xhr) {
+          // Приховати спінер при помилці
+          $("#loading-spinner").addClass("d-none");
+          alertify.error("Помилка отримання даних: " + xhr.statusText);
+        },
+      });
+    });
+
+    // Додаємо функцію для індексації всіх непроіндексованих файлів
+    $("#index-all").click(function () {
+      // Показати спінер перед запитом
+      $("#loading-spinner").removeClass("d-none");
+      $("#unindexed-files-list").empty(); // Очищаємо список файлів
+      $("#index-all-status").empty(); // Очищаємо статус
+
+      $.ajax({
+        url: "/users/index_all_unindexed_files", // Замініть на правильний ендпоінт для індексації
+        type: "GET", // Використовуємо POST для індексації
+        success: function (response) {
+          // Приховати спінер після отримання відповіді
+          $("#loading-spinner").addClass("d-none");
+
+          if (response.unindexed_files.length > 0) {
+            // Вивести кількість непроіндексованих файлів
+            $("#unindexed-files").text(response.unindexed_files.length);
+
+            // Додати кожен файл до списку
+            response.unindexed_files.forEach(function (file) {
+              $("#unindexed-files-list").append("<li>" + file + "</li>");
+            });
+
+            alertify.success("Знайдено " + response.unindexed_files.length + " непроіндексованих файлів.");
+          } else {
+            $("#unindexed-files").text("0");
+            alertify.warning("Всі файли проіндексовані.");
+          }
+        },
+        error: function (xhr) {
+          // Приховати спінер при помилці
+          $("#loading-spinner").addClass("d-none");
+          $("#index-all-status").text("Сталася помилка при індексації.");
+          alertify.error("Помилка індексації: " + xhr.statusText);
+        },
+      });
+    });
+  });
+</script>
+
 {% endblock %}

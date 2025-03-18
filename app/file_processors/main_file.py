@@ -42,7 +42,6 @@ class SearchContext:
         :return: Dictionary containing file metadata and content.
         """
         ext = file_path.split('.')[-1].lower()
-
         if ext not in self.processors:
             return {"status": "error", "message": f"No processor found for {ext} files"}
 

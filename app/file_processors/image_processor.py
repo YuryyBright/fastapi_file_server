@@ -59,6 +59,7 @@ class ImageProcessor(FileProcessor):
         :param keyword: The keyword to search for.
         :return: A list of lines containing the keyword.
         """
+
         text = self.extract_text()
         return TextSearcher.search_text(text, keyword, exact_match)
 

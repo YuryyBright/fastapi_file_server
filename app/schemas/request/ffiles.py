@@ -1,3 +1,5 @@
+from typing import List
+
 from pydantic import BaseModel, Field
 
 class ArchiveRequest(BaseModel):
@@ -16,3 +18,5 @@ class ArchiveRequest(BaseModel):
     #     if not v.endswith('.zip'):
     #         raise ValueError("Archive name must end with .zip")
     #     return v
+class FileResponseSchema(BaseModel):
+    unindexed_files: List[str]

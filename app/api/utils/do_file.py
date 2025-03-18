@@ -43,7 +43,6 @@ def get_mime(file: Path) -> Optional[str]:
 def get_system_stats():
     # Перевірка, чи існує директорія
     directory = Path(bucket_path)
-    print(directory)
     if not directory.exists() or not directory.is_dir():
         return None
 

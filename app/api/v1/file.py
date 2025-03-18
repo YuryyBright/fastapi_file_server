@@ -3,12 +3,15 @@ from fastapi.responses import FileResponse
 import pathlib
 
 from datetime import datetime
+
+from api.utils.elastic import ElasticsearchService
 from app.managers.auth import oauth2_schema
 from app.schemas.response.ffiles import SysFile
 from app.managers.archive import ArchiveService
 from fastapi import BackgroundTasks
 from app.api.utils.do_file import syspath, check_name, write, get_mime, format_bytes_size, bucket_path, sanitize_path
-from app.api.utils.elastic import index_file, delete_file_index
+
+from schemas.request.ffiles import FileResponseSchema
 
 archive_service = ArchiveService()  # Configure with your base path
 router = APIRouter(tags=["File"], prefix="/file")
@@ -52,9 +55,9 @@ async def upload_file(
     # Читаємо вміст файлу
     content = await file.read()
     await write(content, new_file)
-
+    es = ElasticsearchService()
     # ✅ Додаємо задачу індексації у фон
-    background_tasks.add_task(index_file, str(new_file))
+    background_tasks.add_task(es.index_file, str(new_file))
 
     return SysFile(
         name=new_file.name,
@@ -83,13 +86,13 @@ def remove_file(background_tasks: BackgroundTasks, path: pathlib.Path = Depends(
     if not path.is_file():
         raise HTTPException(status_code=404)
     try:
+        es = ElasticsearchService()
         pathlib.Path.unlink(path)
-        background_tasks.add_task(delete_file_index, str(path))
+        background_tasks.add_task(es.delete_file_index, str(path))
     except FileNotFoundError:
         raise HTTPException(status_code=404)
     except OSError as e:
         raise HTTPException(status_code=412, detail=f"{e}")
-
 
 
 
