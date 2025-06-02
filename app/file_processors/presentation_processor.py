@@ -1,5 +1,5 @@
 from pptx import Presentation
-from file_processors.base_processor import FileProcessor
+from app.file_processors.base_processor import FileProcessor
 
 
 class PresentationProcessor(FileProcessor):
@@ -15,7 +15,7 @@ class PresentationProcessor(FileProcessor):
         """
         self.file_path = file_path
 
-    def search(self, keyword: str) -> list[str]:
+    def search(self, keyword: str, exact_match: bool) -> list[str]:
         """
         Search for a keyword in a PowerPoint presentation.
         :param keyword: The keyword to search for within the presentation.

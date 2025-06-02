@@ -1,4 +1,4 @@
-from file_processors.base_processor import FileProcessor
+from app.file_processors.base_processor import FileProcessor
 import os
 
 
@@ -10,7 +10,7 @@ class CodeProcessor(FileProcessor):
     def __init__(self, file_path: str):
         self.file_path = file_path
 
-    def search(self, keyword: str) -> list[str]:
+    def search(self, keyword: str, exact_match: bool) -> list[str]:
         """
         Search for a keyword in code files.
         :param keyword: The keyword to search for in the code file.

@@ -1,6 +1,6 @@
 import PyPDF2
 
-from file_processors.base_processor import FileProcessor
+from app.file_processors.base_processor import FileProcessor
 
 class PDFProcessor(FileProcessor):
     """

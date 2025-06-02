@@ -308,3 +308,6 @@ def delete(
     else:
         rprint("\n[red]-> ERROR deleting that User : [bold]User not found\n")
         raise typer.Exit(1)
+
+
+## python -m app.api_admin user create --email user@example.com --first_name Yurii --last_name Koval --password strongpassword --admin

@@ -1,7 +1,7 @@
 import easyocr
 import numpy as np
 from PIL import Image
-from file_processors.base_processor import FileProcessor, TextSearcher
+from app.file_processors.base_processor import FileProcessor, TextSearcher
 import sys
 import os
 import contextlib

@@ -5,7 +5,7 @@ from typing import Annotated, Optional, Union
 
 from fastapi import APIRouter, Depends, Request, status, Response, HTTPException, BackgroundTasks
 from sqlalchemy.ext.asyncio import AsyncSession
-from api.utils.elastic import ElasticsearchService
+from app.api.utils.elastic import ElasticsearchService
 from app.api.v1.file import archive_service
 from app.database.db import get_database
 from app.managers.auth import can_edit_user, is_admin, oauth2_schema

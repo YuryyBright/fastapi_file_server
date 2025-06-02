@@ -4,14 +4,14 @@ import pathlib
 
 from datetime import datetime
 
-from api.utils.elastic import ElasticsearchService
+from app.api.utils.elastic import ElasticsearchService
 from app.managers.auth import oauth2_schema
 from app.schemas.response.ffiles import SysFile
 from app.managers.archive import ArchiveService
 from fastapi import BackgroundTasks
 from app.api.utils.do_file import syspath, check_name, write, get_mime, format_bytes_size, bucket_path, sanitize_path
 
-from schemas.request.ffiles import FileResponseSchema
+from app.schemas.request.ffiles import FileResponseSchema
 
 archive_service = ArchiveService()  # Configure with your base path
 router = APIRouter(tags=["File"], prefix="/file")

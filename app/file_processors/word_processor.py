@@ -1,5 +1,5 @@
 import os
-from file_processors.base_processor import FileProcessor, TextSearcher
+from app.file_processors.base_processor import FileProcessor, TextSearcher
 from docx import Document
 import zipfile
 import olefile

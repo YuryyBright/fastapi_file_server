@@ -44,7 +44,7 @@ class AuthManager:
         """Create and return a JTW token."""
         try:
             payload = {
-                "sub": user.id,
+                "sub": str(user.id),  # Convert to string
                 "exp": datetime.datetime.now(tz=datetime.timezone.utc)
                 + datetime.timedelta(
                     minutes=get_settings().access_token_expire_minutes
@@ -64,7 +64,7 @@ class AuthManager:
         """Create and return a JTW token."""
         try:
             payload = {
-                "sub": user.id,
+                "sub": str(user.id),  # Convert to string
                 "exp": datetime.datetime.now(tz=datetime.timezone.utc)
                 + datetime.timedelta(minutes=60 * 24 * 30),
                 "typ": "refresh",
@@ -84,7 +84,7 @@ class AuthManager:
         """Create and return a JTW token."""
         try:
             payload = {
-                "sub": user.id,
+                "sub": str(user.id),  # Convert to string
                 "exp": datetime.datetime.now(tz=datetime.timezone.utc)
                 + datetime.timedelta(minutes=10),
                 "typ": "verify",
@@ -116,7 +116,9 @@ class AuthManager:
                     status.HTTP_401_UNAUTHORIZED, ResponseMessages.INVALID_TOKEN
                 )
 
-            user_data = await get_user_by_id_(payload["sub"], session)
+            # Convert string back to int for database lookup
+            user_id = int(payload["sub"])
+            user_data = await get_user_by_id_(user_id, session)
 
             if not user_data:
                 raise HTTPException(
@@ -137,6 +139,11 @@ class AuthManager:
             raise HTTPException(
                 status.HTTP_401_UNAUTHORIZED, ResponseMessages.INVALID_TOKEN
             ) from exc
+        except ValueError as exc:
+            # Handle case where sub cannot be converted to int
+            raise HTTPException(
+                status.HTTP_401_UNAUTHORIZED, ResponseMessages.INVALID_TOKEN
+            ) from exc
         else:
             return new_token
 
@@ -150,7 +157,9 @@ class AuthManager:
                 algorithms=["HS256"],
             )
 
-            user_data = await session.get(User, payload["sub"])
+            # Convert string back to int for database lookup
+            user_id = int(payload["sub"])
+            user_data = await session.get(User, user_id)
 
             if not user_data:
                 raise HTTPException(
@@ -175,7 +184,7 @@ class AuthManager:
 
             await session.execute(
                 update(User)
-                .where(User.id == payload["sub"])
+                .where(User.id == user_id)
                 .values(
                     verified=True,
                 )
@@ -193,57 +202,11 @@ class AuthManager:
             raise HTTPException(
                 status.HTTP_401_UNAUTHORIZED, ResponseMessages.INVALID_TOKEN
             ) from exc
-
-    @staticmethod
-    async def resend_verify_code(
-        user: int, background_tasks: BackgroundTasks, session: AsyncSession
-    ) -> None:  # pragma: no cover (code not used at this time)
-        """Resend the user a verification email."""
-        user_data = await get_user_by_id_(user, session)
-
-        if not user_data:
-            raise HTTPException(
-                status.HTTP_404_NOT_FOUND, ResponseMessages.USER_NOT_FOUND
-            )
-
-        # block a banned user
-        if bool(user_data.banned):
+        except ValueError as exc:
+            # Handle case where sub cannot be converted to int
             raise HTTPException(
                 status.HTTP_401_UNAUTHORIZED, ResponseMessages.INVALID_TOKEN
-            )
-
-        if bool(user_data.verified):
-            raise HTTPException(
-                status.HTTP_400_BAD_REQUEST,
-                ResponseMessages.ALREADY_VALIDATED,
-            )
-
-        email = EmailManager()
-        email.template_send(
-            background_tasks,
-            EmailTemplateSchema(
-                recipients=[EmailStr(user_data.email)],
-                subject=f"Welcome to {get_settings().api_title}!",
-                body={
-                    "application": f"{get_settings().api_title}",
-                    "user": user_data.email,
-                    "base_url": get_settings().base_url,
-                    "verification": AuthManager.encode_verify_token(user_data),
-                },
-                template_name="welcome.html",
-            ),
-        )
-        # await email.simple_send(
-        #     EmailSchema(
-        #         recipients=[user_data["email"]],
-        #         subject=f"Welcome to {get_settings().api_title}!",
-        #         body="Test Email",
-        #     ),
-        # )
-
-        raise HTTPException(
-            status.HTTP_200_OK, ResponseMessages.VALIDATION_RESENT
-        )
+            ) from exc
 
 
 # class CustomHTTPBearer(HTTPBearer):
@@ -282,53 +245,76 @@ class AuthManager:
 #             ) from exc
 #         else:
 #             return user_data  # type: ignore
+
 class CustomHTTPBearer(HTTPBearer):
     """Our own custom HTTPBearer class."""
 
     async def __call__(
             self, request: Request, db: AsyncSession = Depends(get_database)
-    ) -> Optional[HTTPAuthorizationCredentials]:
+    ) -> Optional[User]:
         """Override the default __call__ function."""
+        token = None
 
-        # Try to get the token from the cookies if not in the header
+        # Try to get the token from the cookies first
         token = request.cookies.get("access_token")
+
         if not token:
             # If no token in cookies, fall back to the Authorization header
-            res = await super().__call__(request)
-            if res:
-                token = res.credentials
-
-        if token:
             try:
-                payload = jwt.decode(
-                    token,
-                    get_settings().secret_key,
-                    algorithms=["HS256"],
-                )
-                user_data = await get_user_by_id_(payload["sub"], db)
-                # block a banned or unverified user
-                if user_data:
-                    if bool(user_data.banned) or not bool(user_data.verified):
-                        raise HTTPException(
-                            status.HTTP_401_UNAUTHORIZED,
-                            ResponseMessages.INVALID_TOKEN,
-                        )
-                    request.state.user = user_data
+                res = await super().__call__(request)
+                if res:
+                    token = res.credentials
+            except HTTPException:
+                # No token found in either location
+                pass
 
-            except jwt.ExpiredSignatureError as exc:
-                raise HTTPException(
-                    status.HTTP_401_UNAUTHORIZED, ResponseMessages.EXPIRED_TOKEN
-                ) from exc
-            except jwt.InvalidTokenError as exc:
-                raise HTTPException(
-                    status.HTTP_401_UNAUTHORIZED, ResponseMessages.INVALID_TOKEN
-                ) from exc
-        else:
+        if not token:
             raise HTTPException(
-                status.HTTP_401_UNAUTHORIZED, ResponseMessages.MISSING_TOKEN
+                status.HTTP_401_UNAUTHORIZED,
+                ResponseMessages.MISSING_TOKEN
             )
-        return user_data  # type: ignore
 
+        try:
+            payload = jwt.decode(
+                token,
+                get_settings().secret_key,
+                algorithms=["HS256"],
+            )
+
+            # Convert string back to int for database lookup
+            user_id = int(payload["sub"])
+            user_data = await get_user_by_id_(user_id, db)
+
+            # Check if user exists
+            if not user_data:
+                raise HTTPException(
+                    status.HTTP_401_UNAUTHORIZED,
+                    ResponseMessages.USER_NOT_FOUND,
+                )
+
+            # Block a banned or unverified user
+            if bool(user_data.banned) or not bool(user_data.verified):
+                raise HTTPException(
+                    status.HTTP_401_UNAUTHORIZED,
+                    ResponseMessages.INVALID_TOKEN,
+                )
+
+            request.state.user = user_data
+            return user_data
+
+        except jwt.ExpiredSignatureError as exc:
+            raise HTTPException(
+                status.HTTP_401_UNAUTHORIZED, ResponseMessages.EXPIRED_TOKEN
+            ) from exc
+        except jwt.InvalidTokenError as exc:
+            raise HTTPException(
+                status.HTTP_401_UNAUTHORIZED, ResponseMessages.INVALID_TOKEN
+            ) from exc
+        except ValueError as exc:
+            # Handle case where sub cannot be converted to int
+            raise HTTPException(
+                status.HTTP_401_UNAUTHORIZED, ResponseMessages.INVALID_TOKEN
+            ) from exc
 
 oauth2_schema = CustomHTTPBearer()
 

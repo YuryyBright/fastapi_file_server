@@ -5,18 +5,18 @@ from pprint import pprint
 from typing import List
 from fastapi import HTTPException
 from elasticsearch import AsyncElasticsearch
-from api.utils.do_file import bucket_path
-from config.settings import get_settings
-from file_processors.main_file import SearchContext
-from file_processors.archive_processor import ArchiveProcessor
-from file_processors.audio_processor import AudioProcessor
-from file_processors.code_processor import CodeProcessor
-from file_processors.excel_processor import ExcelProcessor
-from file_processors.image_processor import ImageProcessor
-from file_processors.pdf_processor import PDFProcessor
-from file_processors.presentation_processor import PresentationProcessor
-from file_processors.text_processor import TextProcessor
-from file_processors.word_processor import WordProcessor
+from app.api.utils.do_file import bucket_path
+from app.config.settings import get_settings
+from app.file_processors.main_file import SearchContext
+from app.file_processors.archive_processor import ArchiveProcessor
+from app.file_processors.audio_processor import AudioProcessor
+from app.file_processors.code_processor import CodeProcessor
+from app.file_processors.excel_processor import ExcelProcessor
+from app.file_processors.image_processor import ImageProcessor
+from app.file_processors.pdf_processor import PDFProcessor
+from app.file_processors.presentation_processor import PresentationProcessor
+from app.file_processors.text_processor import TextProcessor
+from app.file_processors.word_processor import WordProcessor
 
 
 class ElasticsearchService:
