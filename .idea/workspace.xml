@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="cdeccc5b-710c-4347-b234-be22ab83c1c8" name="Changes" comment="fix pyproject">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/config/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uv.lock" beforeDir="false" afterPath="$PROJECT_DIR$/uv.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -271,7 +273,7 @@
       <workItem from="1748759545365" duration="4000" />
       <workItem from="1748782355349" duration="1618000" />
       <workItem from="1748839929546" duration="8036000" />
-      <workItem from="1748852346461" duration="2078000" />
+      <workItem from="1748852346461" duration="12713000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -457,7 +459,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748854731128</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="fix pyproject">
+      <option name="closed" value="true" />
+      <created>1748854950348</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1748854950348</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -499,11 +509,15 @@
           <url>file://$PROJECT_DIR$/src/models/base_model.py</url>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/app/api/utils/elastic.py</url>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/fast_api_file_server$main.coverage" NAME="main Coverage Results" MODIFIED="1748854433399" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
+    <SUITE FILE_PATH="coverage/fast_api_file_server$main.coverage" NAME="main Coverage Results" MODIFIED="1748867237425" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
     <SUITE FILE_PATH="coverage/fast_api_file_server$main_file.coverage" NAME="main_file Coverage Results" MODIFIED="1742290768084" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/file_processors" />
     <SUITE FILE_PATH="coverage/fast_api_file_server$pytest_in_download_file_py.coverage" NAME="pytest in download_file.py Coverage Results" MODIFIED="1736429477916" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/ffiles" />
     <SUITE FILE_PATH="coverage/fast_api_file_server$api_admin.coverage" NAME="api_admin Coverage Results" MODIFIED="1736490848070" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />

@@ -87,8 +87,8 @@ class Settings(BaseSettings):
     mail_use_credentials: bool = True
     mail_validate_certs: bool = True
 
-    elastic_host:str = 'http://192.168.50.46:9200'
-    elastic_user:str
+    elastic_host:str = 'http://192.168.0.158:9200'
+    elastic_user:str = 'elastic'
     elastic_password:str
 
     # gatekeeper settings!
