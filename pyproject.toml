@@ -3,7 +3,7 @@ name = "fast-api-file-server"
 version = "0.1.0"
 description = ""
 readme = "README.md"
-authors = ''
+authors = ["Yurii <you@example.com>"]  # ✅ valid
 [tool.poetry.dependencies]
 python = "^3.9"
 
