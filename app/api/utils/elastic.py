@@ -39,6 +39,7 @@ class ElasticsearchService:
             max_retries=3,
             retry_on_timeout=True
         )
+
         self.context = SearchContext()
         self._register_processors()
 
