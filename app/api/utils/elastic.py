@@ -34,7 +34,10 @@ class ElasticsearchService:
         """
         self.es = AsyncElasticsearch(
             hosts=[get_settings().elastic_host],
-            basic_auth=(get_settings().elastic_user, get_settings().elastic_password)
+            basic_auth=(get_settings().elastic_user, get_settings().elastic_password),
+            request_timeout=30,  # Default is 10
+            max_retries=3,
+            retry_on_timeout=True
         )
         self.context = SearchContext()
         self._register_processors()
