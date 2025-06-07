@@ -76,3 +76,6 @@ app.add_typer(test.app, name="test", help="Setup and Run tests.")
 
 if __name__ == "__main__":  # pragma: no cover
     app()
+
+
+# python -m app.api_admin user create -e auser@example.com -f Admin -l User -p strongpassword -a

@@ -1,4 +1,4 @@
-FROM python:3.12-slim AS dev
+FROM python:3.13
 
 # Install necessary build tools (only if using PostgreSQL or any libraries requiring them)
 RUN apt-get update -y && apt-get install -y \

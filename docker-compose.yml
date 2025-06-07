@@ -10,7 +10,7 @@ services:
     networks:
       - app_network
     volumes:
-      - D:/uploaded_files:/file_server/app/uploaded_files
+      - F:/uploaded_files:/file_server/app/uploaded_files
 
 
 #  db:
